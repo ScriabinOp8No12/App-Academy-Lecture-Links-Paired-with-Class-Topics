@@ -28,8 +28,8 @@ add them to google drive with the following columns / data
    5. Zoom link password
 
 
-Boilerplate code from ChatGPT4:
-I asked it what week and day March 15th would be, and it correctly told me it was Week 10, day 3:
+
+If plugging in March 15th, code would output Week 10, day 3, which is correct!
 
 from datetime import datetime
 
@@ -37,9 +37,13 @@ start_date = datetime(2023, 1, 9)
 # Plug in March 15th into the current_date below
 current_date = datetime(2023, 3, 15)
 
+# difference in dates
 delta = current_date - start_date
+# convert that difference to # of days
 days = delta.days
 
+# use integer aka floor division to get the week number
+# also same as math.floor (10 / 7)
 week = days // 7 + 1
 day = days % 7 + 1
 
