@@ -16,8 +16,8 @@ Also, here's the thought process for getting the week and day number given our c
 
 1. Set our cohort's starting date to January 9th, 2023.  That will be associated with Week 1 Day 1
 2. Now if a lecture link is found with a certain date, like January 12th, 2023, we know that that was from class 
-on January 11th, 2023, which is 2 days after our start, which means we are on Week 1, Day 3.  Now we go to Week 1, Day 3
-on App Academy Open and scrape all the associated titles of the material we went over on that day. 
+on January 11th, 2023, which is 2 days after our start, which means we are on Week 1, Day 3.  Now we grab 
+our scraped data (titles of material we went over on that day) from App Academy Open from Week 1, Day 3
 3. Now we have the material of that day, and the associated zoom link, we store these as key value pairs and then
 add them to google drive with the following columns / data
 
