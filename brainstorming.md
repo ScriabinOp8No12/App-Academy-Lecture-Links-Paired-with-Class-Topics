@@ -42,9 +42,10 @@ delta = current_date - start_date
 # convert that difference to # of days
 days = delta.days
 
-# use integer aka floor division to get the week number
-# also same as math.floor (10 / 7)
-week = days // 7 + 1
+# to get week number, do the following
+# add 1 to get our default start at week 1 day 1
+week = math.floor(days / 7) + 1
+# modulo for the days leftover, AKA if days is 8, that is week 1 day 2
 day = days % 7 + 1
 
 print(f"Week {week}, Day {day}")
