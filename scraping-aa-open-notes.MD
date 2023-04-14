@@ -30,3 +30,5 @@
 # Figure out how to get selenium webdriver to click on the link itself, then scrape that link.  I'm told this is very
 # challenging because the bot has to go back to the main link, I'm confused as to why this is hard?  Maybe it's
 # cause there are multiple threads going at once, and that's hard to balance?
+
+# https://w3c.github.io/webdriver/#element-click  (LINK TO 2ND METHOD IF 1ST METHOD DOESN'T WORK! )
