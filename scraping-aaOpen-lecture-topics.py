@@ -57,3 +57,35 @@ for week_element in week_links:
         week_names.append(week_name)
 
 print(week_names)
+
+# ****** NEXT STEPS BELOW ******
+
+# Plan:
+# Now that we have the week names, we can have Selenium click on them (find element by xpath)
+# Find the elements containing the week names
+
+
+for week_name in week_names:
+    # Find the element containing the week name, which is within the li tag
+    week = browser.find_element(by=By.XPATH, value=f"//li[contains(text(), '{week_name}')]")
+
+    # Click on the week element
+    week.click()
+
+    # Wait for the page to load
+    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "li.week-content")))
+
+    # Scrape the information
+    topics = browser.find_element_by_css_selector("li.week-content").text
+    print(topics)
+#
+#     # Click the back arrow
+#     driver.execute_script("window.history.go(-1)")
+#
+#     # Wait for the page to load
+#     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.week-name")))
+#
+#     # Wait before moving on to the next week
+#     time.sleep(5)
+#
+# driver.quit()
