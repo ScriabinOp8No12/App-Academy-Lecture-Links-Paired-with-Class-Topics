@@ -3,7 +3,9 @@ Scroll down to the “Legacy token generator” section and click on the “Crea
 Once you’ve created the token, copy it and store it securely. Keep in mind that legacy tokens provide access to all data in a workspace and do not support granular permissions, so they should be treated like passwords and kept confidential.
 To use the legacy token with the Slack API, include it as a bearer token in the Authorization header of your HTTP requests. For example, if you’re using Python and the requests library, you can make an authenticated request to the conversations.list method like this:
 
-# import requests
+# some boilerplate code below:
+
+import requests
 
 headers = {
     'Authorization': 'Bearer YOUR_LEGACY_TOKEN'
@@ -17,7 +19,7 @@ This code sends an authenticated GET request to the conversations.list method of
 You can use this approach to make authenticated requests to any method of the Slack API that supports legacy tokens. Keep in mind that some methods may not support legacy tokens or may have limited functionality when used with them.
 
 
-# can you explain what legacy tokens are to me like I'm 5 years old
+# can you explain what legacy tokens are to me like I'm 5 years old?
 
 
 Sure! Imagine you have a special key that can open all the doors in your house. You can use this key to go into any room 
