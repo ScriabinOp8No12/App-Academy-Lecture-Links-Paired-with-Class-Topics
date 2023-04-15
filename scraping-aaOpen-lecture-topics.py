@@ -7,15 +7,12 @@ import os
 import requests
 import pandas as pd
 
-# url to main App Academy Open page that has all the weeks on the left side of the screen
 main_page_url = r'https://open.appacademy.io/learn/js-py---pt-jan-2023-online/'
-# Need to have selenium webdriver log in as me, because otherwise it won't load the page at all!
 login_page_url = r'https://open.appacademy.io/login'
-# Use selenium's webdriver to scrape (chrome)
 browser = webdriver.Chrome()
-# Navigate to the login page
 browser.get(login_page_url)
 # Grab the password from the **environment variable**
+# Igor suggestion: Prompt from console instead of storing it in the environment variable!
 password_value = os.environ['APP_ACADEMY_PASSWORD']
 # Use the following 2 lines to make sure the password is correct
 # password_value = os.environ.get('APP_ACADEMY_PASSWORD')
@@ -45,10 +42,10 @@ week_elements = wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTO
 # This is done so that the HTML source code can be parsed and analyzed using BeautifulSoup in the next line of code.
 result = browser.page_source
 doc = BeautifulSoup(result, "html.parser")
-# Scrapes all 'weeks' by finding the li tag and accessing the class specified below
+# Scrapes all 'weeks' of the li tag with class specified below
 week_links = doc.find_all('li', {'class': 'sc-kpOJdX juxBLx'})
 # Looks for the Weeks without the word "Assessment" in them, which weeds out Assessment and Practice Assessment weeks,
-# Which contains content that we don't want to scrape.  We only want the lecture topics to pair with the Zoom links!
+# Which contains content that we don't want to scrape.
 week_names = []
 for week_element in week_links:
     # text property of beautifulsoup Tag class returns all TEXT inside a tag and its children, stripped of any HTML tags
@@ -59,6 +56,8 @@ for week_element in week_links:
 print(week_names)
 
 # ****** NEXT STEPS BELOW ******
+
+# li tag, class of sc-gqjmRU kvshPl, remember to output any text using Beautiful Soup's text property
 
 # Plan:
 # Now that we have the week names, we can have Selenium click on them (find element by xpath)
@@ -73,19 +72,19 @@ for week_name in week_names:
     week.click()
 
     # Wait for the page to load
-    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "li.week-content")))
+    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "li.sc-gqjmRU kvshPl")))
 
     # Scrape the information
-    topics = browser.find_element_by_css_selector("li.week-content").text
+    topics = browser.find_element_by_css_selector("li.sc-gqjmRU kvshPl").text
     print(topics)
-#
-#     # Click the back arrow
-#     driver.execute_script("window.history.go(-1)")
-#
-#     # Wait for the page to load
-#     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.week-name")))
-#
-#     # Wait before moving on to the next week
-#     time.sleep(5)
-#
-# driver.quit()
+
+    # Click the back arrow
+    browser.execute_script("window.history.go(-1)")
+
+    # Wait for the page to load
+    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.week-name")))
+
+    # Wait before moving on to the next week
+    time.sleep(5)
+
+driver.quit()
