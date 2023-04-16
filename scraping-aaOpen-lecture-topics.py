@@ -2,11 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 import os
 import time
 import requests
 import pandas as pd
+
+# ** Make sure to run "AA_ENVIRONMENT_VARIABLE"  NOT THE ACTUAL PYTHON FILE
 
 main_page_url = r'https://open.appacademy.io/learn/js-py---pt-jan-2023-online/'
 login_page_url = r'https://open.appacademy.io/login'
@@ -71,14 +74,39 @@ for week_name in week_names:
     weeks = browser.find_elements(by=By.XPATH, value=f"//li[contains(text(), '{week_name}')]")
     for week in weeks:
         # Click on the week
-        week.click()
+        # week.click()
+        # Click on the week using JavaScript
+        browser.execute_script("arguments[0].click();", week)
         print(f"Clicked on {week_name}")
 
-        # Go back to the main page URL now after clicking the week
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        day_elements = browser.find_elements(by=By.CSS_SELECTOR,
+                                             value='h3.sc-dnqmqq.kcAQXs, h3.sc-dnqmqq.jLQnpZ')
+        for day_element in day_elements:
+            day_text = day_element.text
+            if day_text in days:
+                print(day_text)
+                # Click on the element using JavaScript
+                browser.execute_script("arguments[0].click();", day_element)
+                print(f"Clicked on {day_text}")
+
         browser.get(main_page_url)
-        # Have to redeclare the menu_element here again, selenium doesn't like it if I just reference menu_element
+        # Have to find the menu_element here again (won't work if we use just the line below that)
         menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
         browser.execute_script('arguments[0].click();', menu_element)
+
+        # Now we click on the individual days within the week (Mon - Sat) -> ** Need to convert these to week/day later
+        # individual_days_within_week = browser.find_elements(by=By.CSS_SELECTOR, value='h3.sc-dnqmqq.kcAQXs')
+        # If the label is Monday, Tuesday, Wednesday, Thursday, Friday, or Saturday, then loop through those and click on each one
+
+        # Wait until we see the
+        # WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "header.sc-gqjmRU kvshPl")))
+
+        # Go back to the main page URL now after clicking the week
+        # browser.get(main_page_url)
+        # # Have to find the menu_element here again (won't work if we use just the line below that)
+        # menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
+        # browser.execute_script('arguments[0].click();', menu_element)
 
     # # Click on the days within the week (Monday, homework for Tuesday, Tuesday, etc.)
     # individual_days_within_week = browser.find_elements(by=By.CSS_SELECTOR, value='.sc-htoDjs.lmwFtC')
