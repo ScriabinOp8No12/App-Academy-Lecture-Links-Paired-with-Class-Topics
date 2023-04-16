@@ -66,21 +66,20 @@ print(week_names)
 # Now that we have the week names, we can have Selenium click on them (find element by xpath)
 # Find the elements containing the week names
 
-for week_name in week_names:
-    # Find the ELEMENTS (not element with the s) containing the week name
-    weeks = browser.find_elements(by=By.XPATH, value=f"//li[contains(text(), '{week_name}')]")
-    for week in weeks:
-        # Click on the week
-        week.click()
-        print(f"Clicked on {week_name}")
+# for week_name in week_names:
+#     # Find the ELEMENTS (not element without the s) containing the week name
+#     weeks = browser.find_elements(by=By.XPATH, value=f"//li[contains(text(), '{week_name}')]")
+#     for week in weeks:
+#         # Click on the week
+#         week.click()
+#         print(f"Clicked on {week_name}")
+
         # Find the back arrow on APP ACADEMY (NOT browser back arrow) -> h3 tag with class of the following
         # back_arrow_element = browser.find_element(by=By.CSS_SELECTOR, value='h3.sc-cSHVUG VLQzD')
         # Click the back arrow
         # browser.execute_script("arguments[0].click();", back_arrow_element)
 
-        browser.quit()
 
-    #
     # # Click on the days within the week (Monday, homework for Tuesday, Tuesday, etc.)
     # individual_days_within_week = browser.find_elements(by=By.CSS_SELECTOR, value='.sc-htoDjs.lmwFtC')
     #
