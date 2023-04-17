@@ -26,7 +26,7 @@ Convert the current day we are scraping into a week and day, for example, week1 
 Let's use a dictionary, with the key being STRING 'week1day1' and the value being the list of topics stored in a tuple
 
 # It'll look like this:
-{'week1day1': (Orientation, Skills Survey), 'week5day2': (Debugger, Recursion)}
+{'week1day1': ('Orientation', 'Skills Survey'), 'week5day2': ('Debugger', 'Recursion')}
 
 
     # 1. Format goes:
