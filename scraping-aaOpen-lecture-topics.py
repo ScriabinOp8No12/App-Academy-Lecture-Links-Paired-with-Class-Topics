@@ -61,14 +61,6 @@ for week_element in week_links:
 
 print(week_names)
 
-# ****** NEXT STEPS BELOW ******
-
-# li tag, class of sc-gqjmRU kvshPl, remember to output any text using Beautiful Soup's text property
-
-# Plan:
-# Now that we have the week names, we can have Selenium click on them (find element by xpath)
-# Find the elements containing the week names
-
 for week_name in week_names:
     # Find the ELEMENTS (not element without the s) containing the week name
     weeks = browser.find_elements(by=By.XPATH, value=f"//li[contains(text(), '{week_name}')]")
@@ -83,59 +75,34 @@ for week_name in week_names:
         for day_element in day_elements:
             day_text = day_element.text
             if day_text in days:
-
                 # Click on the element using JavaScript
                 browser.execute_script("arguments[0].click();", day_element)
                 print(f"Clicked on {day_text}")
+
                 not_valid_topics = ['Learning Boost', 'End of Day', 'Formative Quiz', 'Practice Problems']
 
                 # Wait for the page to load
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'header.sc-gqjmRU.kvshPl')))
 
                 # Get the updated page source (otherwise our output will be blank)
-                result = browser.page_source
+                new_result = browser.page_source
 
                 # Update the doc object to reflect the new source code
-                doc = BeautifulSoup(result, "html.parser")
+                each_day_doc = BeautifulSoup(new_result, "html.parser")
 
                 # Get the topic elements from the updated doc object (this will contain everything, I only want the text)
-                topic_elements = doc.find_all('header', class_='sc-gqjmRU kvshPl')
+                topic_elements = each_day_doc.find_all('header', class_='sc-gqjmRU kvshPl')
 
+                # Use a loop to get the text from each topic element
                 topics = []
                 for topic_element in topic_elements:
-                    topic_text = topic_element.text
-                    if topic_text not in not_valid_topics:
-                        topics.append(topic_text)
+                    if topic_element.text not in not_valid_topics:
+                        topics.append(topic_element.text)
                 print(topics)
+
         browser.get(main_page_url)
         # Have to find the menu_element here again (won't work if we use just the line below that)
         menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
         browser.execute_script('arguments[0].click();', menu_element)
 
-        # Now we click on the individual days within the week (Mon - Sat) -> ** Need to convert these to week/day later
-        # individual_days_within_week = browser.find_elements(by=By.CSS_SELECTOR, value='h3.sc-dnqmqq.kcAQXs')
-        # If the label is Monday, Tuesday, Wednesday, Thursday, Friday, or Saturday, then loop through those and click on each one
 
-        # Wait until we see the
-        # WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "header.sc-gqjmRU kvshPl")))
-
-        # Go back to the main page URL now after clicking the week
-        # browser.get(main_page_url)
-        # # Have to find the menu_element here again (won't work if we use just the line below that)
-        # menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
-        # browser.execute_script('arguments[0].click();', menu_element)
-
-    # # Click on the days within the week (Monday, homework for Tuesday, Tuesday, etc.)
-    # individual_days_within_week = browser.find_elements(by=By.CSS_SELECTOR, value='.sc-htoDjs.lmwFtC')
-    #
-    # # Wait for the page to load and stop waiting once we find the topics
-    # # ****** THIS LINE BREAKS?!?!?!? ******
-    # WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "header.sc-gqjmRU kvshPl")))
-    #
-    # topic_result = browser.page_source
-    # topic_doc = BeautifulSoup(topic_result, "html.parser")
-    # # Scrape the information
-    # topics = topic_doc.find_all('header', {'class': 'sc-gqjmRU kvshPl'})
-    # print(topics)
-
-    # driver.quit()
