@@ -9,6 +9,26 @@
 # 2. Scrape all the weeks with a string that contains Week + DOES NOT contain 'ASSESSMENT'
 # 3. The info is stored in a li: <li class="sc-kpOJdX jPCnwj">Week 1-2 Assessment</li>
 # 4. GENERATE PROPER LINKS TO SCRAPE
+
+** Current plan: 11:47pm 4-16-23
+
+Need to scrape the titles of the topics we cover on that day
+
+# should be the following class within the header tag
+header.sc-gqjmRU.kvshPl
+
+Now, we need to filter out the following key-words ["Learning Boost", "End of day", "Formative Quiz", "Check" ] (maybe not the word "Check")
+We can use a list as seen above, and check if the text doesn't include anything from the list, then we save those topics
+
+# How do we save the topics?
+Convert the current day we are scraping into a week and day, for example, week1 Monday would be week1day1
+
+Let's use a dictionary, with the key being STRING 'week1day1' and the value being the list of topics stored in a tuple
+
+# It'll look like this:
+{'week1day1': (Orientation, Skills Survey), 'week5day2': (Debugger, Recursion)}
+
+
     # 1. Format goes:
          # week-1
          # three dashes ( --- ) because a hyphen follows the week everytime
