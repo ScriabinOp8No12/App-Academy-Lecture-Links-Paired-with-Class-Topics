@@ -112,8 +112,10 @@ for week_name in week_names:
         for topic_element in topic_elements:
             if topic_element.text not in not_valid_topics:
                 print("topic_element_text", topic_element.text)
-                # Everything below is not working!
-                h3_elements = each_day_doc.find_all('h3', class_='sc-dnqmqq ftHzVO')
+                # Everything below WAS NOT WORKING, UNTIL... I realized that light theme and dark theme html is different...
+                # dark theme class is: sc-dnqmqq ftHzVO while light theme is: sc-dnqmqq kcAQXs
+                # Selenium opens the browser in light theme, not the dark theme I use normally
+                h3_elements = each_day_doc.find_all('h3', class_='sc-dnqmqq kcAQXs')
                 print("h3 elements", h3_elements)
         #         for h3_element in h3_elements:
         #             if h3_element.text in days:
