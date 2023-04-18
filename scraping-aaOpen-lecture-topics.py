@@ -13,6 +13,9 @@ import pandas as pd
 
 main_page_url = r'https://open.appacademy.io/learn/js-py---pt-jan-2023-online/'
 login_page_url = r'https://open.appacademy.io/login'
+
+# Create the browser object and clear the cache (if we don't do this, we start at whatever week the program left
+# off on previously, which messes up our scraped html for the 1st week)
 browser = webdriver.Chrome()
 # Go to the login page using selenium on Chrome
 browser.get(login_page_url)
@@ -36,6 +39,7 @@ submit_button = browser.find_element(by=By.XPATH, value='//button[@type="submit"
 submit_button.click()
 # Wait 10 seconds to let the page load
 browser.implicitly_wait(10)
+
 # Locate the hamburger menu in the top left, the element is an "a tag" with a class name specified below
 menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
 # Click on the hamburger menu
@@ -81,10 +85,11 @@ for week_name in week_names:
                 browser.execute_script("arguments[0].click();", day_element)
 
                 print(f"Clicked on {day_text}")
-                time.sleep(5)
+                # IMPORTANT: Need to have it wait at least 2 seconds otherwise THE URL WON'T CHANGE
+                time.sleep(2)
                 # once we click on a valid day, all the html we need will be properly loaded, so we break
                 break
-
+        # with the time.sleep(2), we now see the url getting updated!
         current_url = browser.current_url
         print('this is the current url', current_url)
         # need a break statement here?? only need to click on it ONCE!!!!
