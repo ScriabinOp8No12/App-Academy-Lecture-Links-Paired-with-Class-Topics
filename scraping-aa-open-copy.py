@@ -61,8 +61,6 @@ for week_element in week_links:
 
 print(week_names)
 
-topics = []
-
 for week_name in week_names:
     # Find the ELEMENTS (not element without the s) containing the week name
     weeks = browser.find_elements(by=By.XPATH, value=f"//li[contains(text(), '{week_name}')]")
@@ -72,54 +70,54 @@ for week_name in week_names:
         print(f"Clicked on {week_name}")
 
         days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        day_elements = browser.find_elements(by=By.CSS_SELECTOR,
-                                             value='h3.sc-dnqmqq.kcAQXs, h3.sc-dnqmqq.jLQnpZ')
-        for day_element in day_elements:
-            day_text = day_element.text
-            if day_text in days:
-                # Click on the element using JavaScript
-                browser.execute_script("arguments[0].click();", day_element)
 
-                print(f"Clicked on {day_text}")
-                time.sleep(5)
-                # once we click on a valid day, all the html we need will be properly loaded, so we break
-                break
+        day = browser.find_element(By.CSS_SELECTOR, "li.sc-htoDjs.lmwFtC")
+        # Click on any menu on the left so that the proper html is loaded
+        browser.execute_script("arguments[0].click();", day)
 
-        current_url = browser.current_url
-        print('this is the current url', current_url)
-        # need a break statement here?? only need to click on it ONCE!!!!
-        not_valid_topics = ['Learning Boost', 'End of Day', 'Formative Quiz', 'Practice Problems']
+        print(f"successfully clicked on {day}")
 
-        # Wait for the page to load
-        # wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'header.sc-gqjmRU.kvshPl')))
-
-        # ********** TRY: FINDING MONDAY, CLICK ON IT ONCE, THEN FIND ALL TAGS, THEN WE FILTER THOSE
-        # TAGS BY FINDING IF THE PARENT TEXT IS EQUAL TO MONDAY, THEN STORE THAT AS WEEK/DAY1
-        # IF IT'S TUESDAY, STORE THAT AS WEEK/DAY2, ETC. *******
-
-        # ***** BIG ISSUE: Beautiful soup parses the entire page, not the one specified after we click the day
-        # Workaround?  Every day that's not a homework or bonus day has an "End of Day" text tag, maybe
-        # we can grab all text that are between "Learning Boost" and "End of Day"??
-        # Get the updated page source (otherwise our output will be blank)
-        new_result = browser.page_source
-
-        # Update the doc object to reflect the new source code
-        each_day_doc = BeautifulSoup(new_result, "html.parser")
-
-        # Get the topic elements from the updated doc object (this will contain everything, I only want the text)
-        topic_elements = each_day_doc.find_all('header', class_='sc-gqjmRU kvshPl')
-
-        # Use a loop to get the text from each topic element
-
-        for topic_element in topic_elements:
-            if topic_element.text not in not_valid_topics:
-                topics.append(topic_element.text)
-
-    print(topics)
-
-    browser.get(main_page_url)
-    # Have to find the menu_element here again (won't work if we use just the line below that)
-    menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
-    browser.execute_script('arguments[0].click();', menu_element)
+        # print("day elements below:")
+        # print(day_element)
+        #
+        # for day_element in day_elements:
+        #     day_text = day_element.text
+        #     if day_text in days:
+        #         # Click on the element using JavaScript
+        #         browser.execute_script("arguments[0].click();", day_element)
+        #         print(f"Clicked on {day_text}")
+        #         # need a break statement here?? only need to click on it ONCE!!!!
+        #         break
+        #         not_valid_topics = ['Learning Boost', 'End of Day', 'Formative Quiz', 'Practice Problems']
+        #
+        #         # Wait for the page to load
+        #         wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'header.sc-gqjmRU.kvshPl')))
+        #         # ********** TRY: FINDING MONDAY, CLICK ON IT ONCE, THEN FIND ALL TAGS, THEN WE FILTER THOSE
+        #         # TAGS BY FINDING IF THE PARENT TEXT IS EQUAL TO MONDAY, THEN STORE THAT AS WEEK/DAY1
+        #         # IF IT'S TUESDAY, STORE THAT AS WEEK/DAY2, ETC. *******
+        #
+        #         # ***** BIG ISSUE: Beautiful soup parses the entire page, not the one specified after we click the day
+        #         # Workaround?  Every day that's not a homework or bonus day has an "End of Day" text tag, maybe
+        #         # we can grab all text that are between "Learning Boost" and "End of Day"??
+        #         # Get the updated page source (otherwise our output will be blank)
+        #         new_result = browser.page_source
+        #
+        #         # Update the doc object to reflect the new source code
+        #         each_day_doc = BeautifulSoup(new_result, "html.parser")
+        #
+        #         # Get the topic elements from the updated doc object (this will contain everything, I only want the text)
+        #         topic_elements = each_day_doc.find_all('header', class_='sc-gqjmRU kvshPl')
+        #
+        #         # Use a loop to get the text from each topic element
+        #         topics = []
+        #         for topic_element in topic_elements:
+        #             if topic_element.text not in not_valid_topics:
+        #                 topics.append(topic_element.text)
+        #         print(topics)
+        #
+        # browser.get(main_page_url)
+        # # Have to find the menu_element here again (won't work if we use just the line below that)
+        # menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
+        # browser.execute_script('arguments[0].click();', menu_element)
 
 

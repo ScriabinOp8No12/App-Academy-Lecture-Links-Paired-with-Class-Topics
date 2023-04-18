@@ -10,6 +10,10 @@
 # 3. The info is stored in a li: <li class="sc-kpOJdX jPCnwj">Week 1-2 Assessment</li>
 # 4. GENERATE PROPER LINKS TO SCRAPE
 
+** Need to store the outputted values, then first check the last element of the list to see what week it contains, if looping through results in
+no new weeks to add, the program doesn't continue.
+
+
 ** Current plan: 11:47pm 4-16-23
 
 Need to scrape the titles of the topics we cover on that day
