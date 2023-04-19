@@ -106,13 +106,19 @@ for week_name in week_names:
         not_valid_topics = ['Learning Boost', 'End of Day', 'Formative Quiz', 'Practice Problems']
         for h3_element in h3_elements:
             if h3_element.text in valid_days:
+                # Set the variable name then the key of the dictionary to be the valid day of the week
                 current_day = h3_element.text
                 days[current_day] = []
+                # Use the ul tag to find the topics names within the current valid day, search for the next ul element
                 next_ul = h3_element.find_next('ul')
+                # If there is another ul element, then find all the li elements within the ul element
                 if next_ul:
                     topic_lis = next_ul.find_all('li')
+                    # Loop through these ul elements, rename them, and find the specific text containing the topics
                     for topic_li in topic_lis:
                         topic_header = topic_li.find('header', class_='sc-gqjmRU kvshPl')
+                        # If the text isn't within the invalid topics list, then add the topic text value as a value
+                        # of the current day we are on (start at Monday)
                         if topic_header and topic_header.text not in not_valid_topics:
                             days[current_day].append(topic_header.text)
 
