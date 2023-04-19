@@ -79,10 +79,12 @@ for week_name in week_names:
 
         days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         day_elements = browser.find_elements(by=By.CSS_SELECTOR,
-                                             value='h3.sc-dnqmqq.kcAQXs, h3.sc-dnqmqq.jLQnpZ')
+                                             value='h3.sc-dnqmqq kcAQXs, h3.sc-dnqmqq jLQnpZ')
         for day_element in day_elements:
             day_text = day_element.text
             if day_text in days:
+                # just click on the first day we see that's valid, that will allow the html to load, and we can
+                # get all the data we need after that
                 browser.execute_script("arguments[0].click();", day_element)
                 print(f"Clicked on {day_text}")
                 # IMPORTANT: Need to wait at least 2 seconds otherwise THE URL WON'T CHANGE (it'll grab wrong data)
@@ -95,33 +97,33 @@ for week_name in week_names:
 
         not_valid_topics = ['Learning Boost', 'End of Day', 'Formative Quiz', 'Practice Problems']
 
-        # ********** TRY: FILTER TAGS BY FINDING IF THE PARENT TEXT IS EQUAL TO MONDAY, THEN STORE THAT AS WEEK/DAY1
-        # IF IT'S TUESDAY, STORE THAT AS WEEK/DAY2, ETC. *******
-
-        # ***** BIG ISSUE: Beautiful soup parses the entire page, not the one specified after we click the day
-        # Workaround?  Every day that's not a homework or bonus day has an "End of Day" text tag, maybe
-        # we can grab all text that are between "Learning Boost" and "End of Day"??
-        # Get the updated page source (otherwise our output will be blank)
         new_result = browser.page_source
         # Update the doc object, otherwise if we use the original doc object, our data will be blank
         each_day_doc = BeautifulSoup(new_result, "html.parser")
-        # Get the topic elements from the updated doc object (this will contain everything, I only want the text)
-        # **** Light theme topics class is different than dark theme topics class.  Selenium loads it in light theme!
+
+        # ** Fixing everything from here on down! **
+
+        # **** Light theme and Dark theme have different CLASSES!!!! Selenium opens the browser in light theme, not the dark theme I use normally
+        # use both in the search: h3_elements = each_day_doc.find_all('h3', class_=['sc-dnqmqq ftHzVO', 'sc-dnqmqq kcAQXs'])
+
+        # all h3 elements on the page
+        h3_elements = each_day_doc.find_all('h3', class_=['sc-dnqmqq kcAQXs', 'sc-dnqmqq jLQnpZ'])
+        for h3_element in h3_elements:
+            print('days:', h3_element.text)
+        # Get the topic elements from the updated doc object
         topic_elements = each_day_doc.find_all('header', class_='sc-gqjmRU kvshPl')
-        # Loop to get all the text from each topic element
         for topic_element in topic_elements:
             if topic_element.text not in not_valid_topics:
-                print("topic_element_text", topic_element.text)
-                # Everything below WAS NOT WORKING, UNTIL... I realized that light theme and dark theme html is different...
-                # dark theme class is: sc-dnqmqq ftHzVO while light theme is: sc-dnqmqq kcAQXs
-                # Selenium opens the browser in light theme, not the dark theme I use normally
-                h3_elements = each_day_doc.find_all('h3', class_='sc-dnqmqq kcAQXs')
-                print("h3 elements", h3_elements)
-        #         for h3_element in h3_elements:
-        #             if h3_element.text in days:
-        #                 header_element = h3_element.find_next_sibling('header', class_='sc-gqjmRU homZFz')
-        #                 if header_element is not None:
-        #                     topics.append(header_element.text)
+                print("topics:", topic_element.text)
+
+    #             if h3_element.text in days:
+        #                 #dark theme: sc-gqjmRU homZFz
+        #                 print(h3_element.text)
+        #                 parent_element = h3_element.find_element_by_xpath('..')
+        #                 header_elements = parent_element.find_elements_by_css_selector('header.sc-gqjmRU.kvshPl')
+        #                 for header_element in header_elements:
+        #                     if header_element is not None:
+        #                         topics.append(header_element.text)
         # print(topics)
 
     browser.get(main_page_url)
