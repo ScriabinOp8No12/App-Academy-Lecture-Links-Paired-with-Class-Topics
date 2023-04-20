@@ -98,7 +98,7 @@ for week_name in week_names:
         # **** Light theme and Dark theme have different CLASSES!!!! Selenium opens the browser in light theme, not the dark theme I use normally
         # if using both in the search: h3_elements = each_day_doc.find_all('h3', class_=['sc-dnqmqq ftHzVO', 'sc-dnqmqq kcAQXs'])
 
-
+        # some days have a different class for some reason, even though they are both light themed
         h3_elements = each_day_doc.find_all('h3', class_=['sc-dnqmqq kcAQXs', 'sc-dnqmqq jLQnpZ'])
 
         days = {}

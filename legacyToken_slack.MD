@@ -21,7 +21,6 @@ You can use this approach to make authenticated requests to any method of the Sl
 
 # can you explain what legacy tokens are to me like I'm 5 years old?
 
-
 Sure! Imagine you have a special key that can open all the doors in your house. You can use this key to go into any room 
 you want and see what’s inside. But you have to be very careful with this key because if someone else gets it, 
 they can also open all the doors in your house and see everything inside.
