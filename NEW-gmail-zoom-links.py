@@ -1,9 +1,9 @@
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from bs4 import BeautifulSoup
+import base64
 import os
-
-
 
 
 def get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender):
@@ -28,12 +28,30 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
         for message in messages:
             msg = service.users().messages().get(userId=user_id, id=message['id']).execute()
             payload = msg['payload']
-            headers = payload['headers']
-            # Get subject and date of email
-            subject = [i['value'] for i in headers if i['name']=='Subject'][0]
-            date = [i['value'] for i in headers if i['name']=='Date'][0]
-            print(f'Subject: {subject}')
-            print(f'Date: {date}')
+            if 'parts' in payload:
+                parts = payload['parts']
+                data = parts[0]['body']['data']
+            else:
+                data = payload['body']['data']
+            # Decode base64 data
+            data = data.replace('-', '+').replace('_', '/')
+            decoded_data = base64.b64decode(data)
+            # Convert decoded data to string
+            content = decoded_data.decode('utf-8')
+            # Parse email content using BeautifulSoup
+            soup = BeautifulSoup(content, 'html.parser')
+            # Find passcode
+            passcode = soup.find('span').text.split(': ')[1]
+
+            # Find zoom link -> logic, find the div with the text "you can copy the recording info..."
+            # then find it's next sibling, which is always the proper zoom link. Look for an 'a' tag and href attribute
+            zoom_link = soup.find('div',
+                                  string='You can copy the recording information below and share with others').find_next_sibling(
+                'a')['href']
+
+            print(f'Zoom link: {zoom_link}')
+            print(f'Passcode: {passcode}')
+
     except HttpError as error:
         print(f'An error occurred: {error}')
 
