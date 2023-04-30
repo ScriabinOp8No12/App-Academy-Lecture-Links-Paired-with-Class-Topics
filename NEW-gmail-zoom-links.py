@@ -2,6 +2,8 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from bs4 import BeautifulSoup
+from datetime import datetime
+import re
 import base64
 import os
 
@@ -48,7 +50,16 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
             zoom_link = soup.find('div',
                                   string='You can copy the recording information below and share with others').find_next_sibling(
                 'a')['href']
+            # Find date information using regex
+            # [FOR LATER!] if multiple recordings with same date, only use the one that is the most recent (latest time)
+            date = re.search(r'Date: .+', content)
+            if date:
+                date = date.group()
+                print(f'Date: {date}')
+            else:
+                print('Date not found')
 
+            # print(content)
             print(f'Zoom link: {zoom_link}')
             print(f'Passcode: {passcode}')
 
