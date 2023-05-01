@@ -7,7 +7,7 @@ import re
 import base64
 import os
 
-
+emails_data = []
 def get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender):
     try:
         # Create credentials object from access token
@@ -55,17 +55,24 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
             date = re.search(r'Date: .+', content)
             if date:
                 date = date.group()
-                print(f'Date: {date}')
-            else:
-                print('Date not found')
+                # print(f'Date: {date}')
+            email_data = {
+                'date': date,
+                'zoom_link': zoom_link,
+                'passcode': passcode
+            }
+            emails_data.append(email_data)
 
-            # print(content)
-            print(f'Zoom link: {zoom_link}')
-            print(f'Passcode: {passcode}')
+
+            # # print(content)
+            # print(f'Zoom link: {zoom_link}')
+            # print(f'Passcode: {passcode}')
 
     except HttpError as error:
         print(f'An error occurred: {error}')
 
+    print(emails_data)
+    return emails_data
 
 access_token = os.environ['ACCESS_TOKEN']
 refresh_token = os.environ['REFRESH_TOKEN']
