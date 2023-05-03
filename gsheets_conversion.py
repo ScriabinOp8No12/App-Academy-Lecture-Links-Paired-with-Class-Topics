@@ -20,11 +20,16 @@ sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 
 # Write data to Google sheet, specifying the range to put the data into.
 cell_list = sheet.range('A1:D5')
+
+date = "5/1/2023"
+zoom_link = "zoom.us/test/link"
+passcode = "123456"
+topics_from_aa = "{Monday: orientation, test, learning}"
+
 values = [
     'Date', 'Zoom Link', 'Passcode', 'Topics from AA',
-    'Wheel', '$20.50', '4', '3/1/2022',
-    'Door', '$15', '2', '3/15/2022',
-    'Engine', '$100', '1', '3/20/2022',
+    f'{date}', f'{zoom_link}', f'{passcode}', f'{topics_from_aa}',
+    'test', 'test', 'test', 'test',
 ]
 
 # This somehow works, I'm not sure how it iterates using zip (it does it in pairs or something?)
