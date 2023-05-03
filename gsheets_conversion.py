@@ -18,19 +18,18 @@ sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 
 # Get the email data from the first code
 dates_zoom_links_and_topics = emails_data
-print(dates_zoom_links_and_topics)
-# Need to dynamically add these values now, basically read these values from the "NEW_gmail_zoom_links.py" file
-# and load them into these variables one after another
 
-date = "5/1/2023"
-zoom_link = "zoom.us/test/link"
-passcode = "123456"
-topics_from_aa = "{Monday: orientation, test, learning}"
+# Dynamically add these values now -> read these values from the "NEW_gmail_zoom_links.py" file
+# and load them into the Google sheets
 
-values = [
-    f'{date}', f'{zoom_link}', f'{passcode}', f'{topics_from_aa}',
-]
+for email_data in emails_data:
+    date = email_data['date']
+    zoom_link = email_data['zoom_link']
+    passcode = email_data['passcode']
+    # topics_from_aa = email_data['topics']
+    # values = [date, zoom_link, passcode, topics_from_aa]
+    values = [date, zoom_link, passcode]
 
-# Insert a new row at the 2nd column of the sheet and input the values there!
-sheet.insert_row(values, 2)
+    # Insert a new row at the 2nd column of the sheet and input the values there!
+    sheet.insert_row(values, 2)
 
