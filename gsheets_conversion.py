@@ -24,9 +24,15 @@ dates_zoom_links_and_topics = emails_data
 # and load them into the Google sheets
 
 for email_data in emails_data:
+    # Original date string: Date: May 2, 2023 03:58 PM Central Time (US and Canada)
     date_str = email_data['date']
-    date_str = date_str.split('Date: ')[1].split(' (')[0].split('Central Time')[0].strip()
+    # Split between the end of "Date:" and before "Central Time"
+    # Output is now: May 2, 2023 03:58 PM
+    date_str = date_str.split('Date: ')[1].split('Central Time')[0].strip()
+    # Parse string into a datetime object, based on the following format
+    # %b: month name, %d: zero padded day, %Y: 4 digit year, etc
     date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M %p')
+    # We only want the month, day, and year.  Output is: May 02, 2023
     formatted_date = date_obj.strftime('%B %d, %Y')
     zoom_link = email_data['zoom_link']
     passcode = email_data['passcode']
