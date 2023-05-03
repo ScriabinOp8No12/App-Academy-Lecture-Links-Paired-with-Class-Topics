@@ -27,13 +27,9 @@ passcode = "123456"
 topics_from_aa = "{Monday: orientation, test, learning}"
 
 values = [
-    'Date', 'Zoom Link', 'Passcode', 'Topics from AA',
     f'{date}', f'{zoom_link}', f'{passcode}', f'{topics_from_aa}',
-    'test', 'test', 'test', 'test',
 ]
 
-# This somehow works, I'm not sure how it iterates using zip (it does it in pairs or something?)
-for cell, value in zip(cell_list, values):
-    cell.value = value
+# Insert a new row at the 2nd column of the sheet and input the values there!
+sheet.insert_row(values, 2)
 
-sheet.update_cells(cell_list)
