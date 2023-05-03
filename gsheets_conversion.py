@@ -1,6 +1,7 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
+from NEW_gmail_zoom_links import emails_data
 
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
 SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
@@ -16,8 +17,8 @@ client = gspread.authorize(creds)
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 
 # Get the email data from the first code
-# email_data = get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender)
-
+dates_zoom_links_and_topics = emails_data
+print(dates_zoom_links_and_topics)
 # Need to dynamically add these values now, basically read these values from the "NEW_gmail_zoom_links.py" file
 # and load them into these variables one after another
 
