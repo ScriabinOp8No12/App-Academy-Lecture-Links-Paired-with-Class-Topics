@@ -2,6 +2,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
 from NEW_gmail_zoom_links import emails_data
+from datetime import datetime
 
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
 SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
@@ -23,12 +24,15 @@ dates_zoom_links_and_topics = emails_data
 # and load them into the Google sheets
 
 for email_data in emails_data:
-    date = email_data['date']
+    date_str = email_data['date']
+    date_str = date_str.split('Date: ')[1].split(' (')[0].split('Central Time')[0].strip()
+    date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M %p')
+    formatted_date = date_obj.strftime('%B %d, %Y')
     zoom_link = email_data['zoom_link']
     passcode = email_data['passcode']
     # topics_from_aa = email_data['topics']
     # values = [date, zoom_link, passcode, topics_from_aa]
-    values = [date, zoom_link, passcode]
+    values = [formatted_date, zoom_link, passcode]
 
     # Insert a new row at the 2nd column of the sheet and input the values there!
     sheet.insert_row(values, 2)
