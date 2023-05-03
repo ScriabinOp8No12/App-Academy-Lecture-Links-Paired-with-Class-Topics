@@ -18,8 +18,8 @@ sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 # Get the email data from the first code
 # email_data = get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender)
 
-# Write data to Google sheet, specifying the range to put the data into.
-cell_list = sheet.range('A1:D5')
+# Need to dynamically add these values now, basically read these values from the "NEW_gmail_zoom_links.py" file
+# and load them into these variables one after another
 
 date = "5/1/2023"
 zoom_link = "zoom.us/test/link"
