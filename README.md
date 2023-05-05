@@ -25,14 +25,15 @@ to that exact python module, and that I need to run that run configuration and N
 4. The Gmail API quickstart guide and tutorials from Youtube + ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The fix was one step: adding my email under the "test user"
 
-# How To Set Everything Up and which variables to change!
+# How To Set Everything Up!
+This takes 30 minutes to 1 hour to set up (or longer)
 
 # Requirements: 
-Python 3.11
-Gmail API - getting your account and tokens setup
-Email from Gmail with the App Academy Lecture for that day
-Gsheets Service Account 
-Libraries for each Python module
+1. Python 3.11
+2. Gmail API - getting your account and tokens setup
+3. Gsheets Service Account 
+4. Email from Gmail with the App Academy Lecture for that day
+5. Libraries for each Python module
 
 # How to get your Gmail API setup (step by step guide):
 
