@@ -33,18 +33,19 @@ This takes 30 minutes to 1 hour to set up (or longer)
 2. Gmail API - getting your account and tokens setup
 3. Gsheets Service Account 
 4. Email from Gmail with the App Academy Lecture for that day
-5. Libraries for each Python module
+5. App Academy Open Account
+6. Libraries for each Python module
 
 # How to get your Gmail API setup (step by step guide):
 
-This guide does a good job, but it misses one crucial step: 
+This guide does a good job, but it misses one step: 
 https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
 
 Here are the steps to follow (as seen above, but with one extra step)
 
-1. Sign in with your Google account at this link: https://console.cloud.google.com/projectselector2/apis/credentials
+1. Sign in with your Google account at this link:<br>https://console.cloud.google.com/projectselector2/apis/credentials
 2. Click on 'Select a Project' and click 'New Project' in the top right.  
-3. Enter GmailConnector or whatever name you want and click 'Create'. You don't need to touch location.  
+3. Enter GmailConnector or another name and click 'Create'. You don't need to touch location.  
 4. Click 'Configure Consent Screen' near the top right or 'Oauth Consent Screen' from the left menu, click 'External' and click 'Create'.
 5. 
 
