@@ -11,8 +11,8 @@ The App Academy Open topics are scraped using Selenium webdriver, using fairly c
 specific elements, scrape neighbor elements, and finally store the topics into dictionaries.  
 
 I wanted to hone my Python skills with this project, I had done a scraping project previously, but it was a lot simpler.
-What I thought would initially take 10 hours has now taken nearly 50 hours, and it's not completed yet. The hardest bugs
-to solve were: 
+What I thought would initially take 10 hours has now taken nearly 50 hours, and it's not completed yet. The hardest 
+problems or bugs to solve were: 
 
 1. Selenium webdriver opens App Academy Open in the default light theme on Chrome. However, I was using the class names
 from App Academy Open in dark theme to scrape the topics. The class names were sometimes different between these two themes! 
@@ -30,16 +30,15 @@ This takes 30 minutes to 1 hour to set up (or longer)
 
 # Requirements: 
 1. Python 3.11
-2. Gmail API - getting your account and tokens setup
+2. Gmail API 
 3. Gsheets Service Account 
 4. Email from Gmail with the App Academy Lecture for that day
 5. App Academy Open Account
 6. Libraries for each Python module
 
-# How to get your Gmail API setup (step by step guide):
+# How to get your Gmail API setup (step-by-step guide):
 
-This guide does a good job, but it misses one step: 
-https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
+This guide does a good job, but it misses one step:<br>https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
 
 Here are the steps to follow (as seen above, but with one extra step)
 
