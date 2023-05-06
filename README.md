@@ -49,7 +49,7 @@ Here are the steps to follow (as seen above, but with one extra step)
 5. In the "App name" field, input your project name, either "GmailConnector" or whatever you named your project in step 3
 6. Enter your Gmail account in the "User support email" field and in the "Developer contact information" at the bottom of the page
 7. Click "Save and Continue"
-8. # Key step the guide misses - Within the "OAuth consent screen", click "Add Users" under the "Test users" field and input the same Gmail account you logged in with in step 1
+8. *** Key step the guide misses - Within the "OAuth consent screen", click "Add Users" under the "Test users" field and input the same Gmail account you logged in with in step 1
 9. Click "Credentials" from the left menu, and then click "Create Credentials" then select "OAuth client ID"
 10. Select "Web application" from the drop-down menu
 11. In the "Authorized redirect URIs" section, put https://developers.google.com/oauthplayground as the URI 
