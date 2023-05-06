@@ -1,4 +1,4 @@
-# What does this project do?  
+# What this project does
 
 This Python project automatically grabs all the App Academy Lecture Zoom links and pairs them with the associated App Academy 
 Open Topics for that day. The data is then conveniently stored into Google sheets so that students can access everything 
@@ -9,7 +9,7 @@ using a Google Sheets service account along with the gspread Python library.  Th
 The App Academy Open topics are scraped using Selenium webdriver, using fairly complex logic to log in, click on 
 specific elements, scrape neighbor elements, and finally store the topics into dictionaries.  
 
-# What was the motivation?
+# Motivation and greatest challenges
 
 I wanted to hone my Python skills with this project, and create something that would benefit me and my classmates! 
 The hardest problems / bugs to solve were: 
@@ -26,7 +26,7 @@ to that exact python module, and that I need to run that run configuration and N
 4. The Gmail API quickstart guide and tutorials from Youtube + ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The fix was adding my gmail account under the "test user"
 
-# How To Set Everything Up!
+# Setup
 Estimated setup time: 30 minutes - 1 hour 
 
 # Requirements: 
@@ -37,7 +37,7 @@ Estimated setup time: 30 minutes - 1 hour
 5. App Academy Open Account and Google Chrome browser (both optional) 
 6. Libraries for each Python module
 
-# How to get your Gmail API setup (step-by-step guide):
+# Gmail API setup (step-by-step guide):
 
 This guide does a good job, but it misses one step:<br>https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
 
@@ -57,6 +57,6 @@ Here are the steps to follow (as seen above, but with one extra step)
 12. You now have your Client ID and Client Secret.  Save them in a secure place, we will be using these later!
 13. Click "Library" from the left side menu, and use the search bar and type in "Gmail API".  Click on it and then hit "Enable"
 
-# Getting your Access and Refresh Tokens
+# Gmail API Access and Refresh Tokens
 
 1. 
