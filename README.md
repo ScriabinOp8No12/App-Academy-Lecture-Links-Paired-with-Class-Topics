@@ -44,8 +44,19 @@ This guide does a good job, but it misses one step:<br>https://ei.docs.wso2.com/
 Here are the steps to follow (as seen above, but with one extra step)
 
 1. Sign in with your Google account at this link:<br>https://console.cloud.google.com/projectselector2/apis/credentials
-2. Click on 'Select a Project' and click 'New Project' in the top right.  
-3. Enter GmailConnector or another name and click 'Create'. You don't need to touch location.  
-4. Click 'Configure Consent Screen' near the top right or 'Oauth Consent Screen' from the left menu, click 'External' and click 'Create'.
-5. 
+2. Click on 'Select a Project' and click 'New Project' in the top right
+3. Enter 'GmailConnector' or another name for your project and click 'Create'
+4. Click 'Configure Consent Screen' near the top right or 'Oauth Consent Screen' from the left menu, click 'External' and click 'Create'
+5. In the "App name" field, input your project name, either "GmailConnector" or whatever you named your project in step 3
+6. Enter your gmail account in the "User support email" field and in the "Developer contact information" at the bottom of the page
+7. Click "Save and Continue"
+8. ** Key step the guide is misses - Within the "OAuth consent screen", click "Add Users" under the "Test users" field and input the same Gmail account you logged in with
+9. Click "Credentials" from the left menu, and then click "Create Credentials" then select "OAuth client ID"
+10. Select "Web application" from the Application type drop down menu
+11. In the "Authorized redirect URIs" section, put this in https://developers.google.com/oauthplayground as the URI 
+12. You now have your Client ID and Client Secret.  Save them in a secure place, we will be using these later!
+13. Click "Library" from the left side menu, and use the search bar and type in "Gmail API".  Click on it and then hit "Enable"
 
+# Getting your Access and Refresh Tokens
+
+1. 
