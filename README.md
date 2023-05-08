@@ -36,13 +36,13 @@ Estimated setup time: 30 minutes - 1 hour
 5. App Academy Open Account and Google Chrome browser (both optional) 
 6. Libraries for each Python module
 
-# Gmail API setup:
+# Gmail API setup - Obtaining your Client ID and Client Secret:
 
 This guide does a good job, but it misses one step:<br>https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
 
 Here are the steps to follow (as seen above, but with one extra step)
 
-1. Sign in with your Gmail account at this link:<br>https://console.cloud.google.com/projectselector2/apis/credentials
+1. Sign in with your Gmail account at this link (step 8 below):<br>https://console.cloud.google.com/projectselector2/apis/credentials
 2. Click on 'Select a Project' and click 'New Project' in the top right
 3. Enter 'GmailConnector' or another name for your project and click 'Create'
 4. Click 'Configure Consent Screen' near the top right or 'Oauth Consent Screen' from the left menu, click 'External' and click 'Create'
@@ -56,6 +56,6 @@ Here are the steps to follow (as seen above, but with one extra step)
 12. You now have your Client ID and Client Secret. Save them in a secure place, we will be using these later!
 13. Click "Library" from the left side menu, and use the search bar and type in "Gmail API". Click on it and then click "Enable"
 
-# Gmail API Access and Refresh Tokens
+# Gmail API - Access and Refresh Tokens
 
-1. 
+1. Note: you will need to go through the same steps to get a new Access and Refresh Token every 7 days (the refresh token expires after 7 days)
