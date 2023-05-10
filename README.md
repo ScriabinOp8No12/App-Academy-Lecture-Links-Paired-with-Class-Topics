@@ -84,10 +84,10 @@ C:\Users\[YOUR USERNAME HERE]\[FOLDER OF PYTHON PROJECTS]\zoom-links-and-topic-a
 7. If you choose not to create environment variables, you can simply find each of these values in the code, and replace everything
 after the "=" with the value.
 
-For example, in the file "NEW_gmail_zoom_links.py", at the end of the file, you would replace
-client_id = os.environ['CLIENT_ID']
-with 
-client_id = [PUT YOUR CLIENT ID HERE WITHOUT THE SQUARE BRACKETS]
+For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would replace
+<br>client_id = os.environ['CLIENT_ID']
+<br>with 
+<br>client_id = [PUT YOUR CLIENT ID HERE WITHOUT THE SQUARE BRACKETS]
 
 Setting up Environment variables for populating google sheets (optional)
 
