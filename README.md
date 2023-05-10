@@ -40,9 +40,9 @@ Estimated setup time: 30 minutes - 1 hour
 
 This guide does a good job, but it misses one step:<br>https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
 
-Here are the steps to follow (as seen above, but with one extra step)
+Here are the steps to follow (as seen above, but with one extra step - step 8)
 
-1. Sign in with your Gmail account at this link (step 8 below):<br>https://console.cloud.google.com/projectselector2/apis/credentials
+1. Sign in with your Gmail account at this link:<br>https://console.cloud.google.com/projectselector2/apis/credentials
 2. Click on 'Select a Project' and click 'New Project' in the top right
 3. Enter 'GmailConnector' or another name for your project and click 'Create'
 4. Click 'Configure Consent Screen' near the top right or 'Oauth Consent Screen' from the left menu, click 'External' and click 'Create'
@@ -56,6 +56,13 @@ Here are the steps to follow (as seen above, but with one extra step)
 12. You now have your Client ID and Client Secret. Save them in a secure place, we will be using these later!
 13. Click "Library" from the left side menu, and use the search bar and type in "Gmail API". Click on it and then click "Enable"
 
-# Gmail API - Access and Refresh Tokens
+# Gmail API - Obtaining your Access and Refresh Tokens [You'll have to do the following steps every 7 days when the tokens expire]
 
-1. Note: you will need to go through the same steps to get a new Access and Refresh Token every 7 days (the refresh token expires after 7 days)
+Note: you will need to go through these same steps to get a new Access and Refresh Token every 7 days (the refresh token expires after 7 days)
+
+1. This same article does a good job of explaining the steps for getting your access and refresh tokens!<br>https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
+2. Go to this link, then click the gear in the top right corner: https://developers.google.com/oauthplayground/
+3. Check the box "Use your own Oauth Credentials" then enter your Client ID and Client Secret you received previously
+4. On the left side, under step 1, scroll down and click on "Gmail API v1". Select everything except "https://www.googleapis.com/auth/gmail.metadata"
+5. Click "Authorize APIs", leave all the boxes checked, and select your Gmail account
+6. For step 2, click "Exchange authorization code for tokens", then save your access and refresh tokens securely
