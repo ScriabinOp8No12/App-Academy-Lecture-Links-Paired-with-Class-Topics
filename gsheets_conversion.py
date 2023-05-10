@@ -42,13 +42,23 @@ for email_data in emails_data:
     if formatted_date not in dates_in_sheet:
         # NEXT STEP (add before if statement): Add App Academy Open topics to end of values list
         values = [formatted_date, zoom_link, passcode]
-        # The next 2 lines of code adds the dates in chronological order (oldest at the top)
-        # # Insert a new row at the 2nd column of the sheet and input the values there!
-        # sheet.insert_row(values, 2)
-        # ----------------------------------------------------------
-        # The following block of code adds the dates in reverse chronological order (newest lectures at the top)
         # Find the last row of the sheet which has data in it (if it's empty, we start on row 1)
         last_row = len(sheet.col_values(1))
         # Insert a new row after the last row of the sheet and input the values there!
         sheet.insert_row(values, last_row + 1)
+    # SORT the data in descending order, but don't touch the 1st row!
+    # Get all data from the sheet (including the header row)
+    data = sheet.get_all_values()
+    # Separate the header row from the rest of the data
+    header = data[0]
+    data = data[1:]
+
+    # Sort the data by the date column in descending order
+    date_column_index = 0
+    data = sorted(data, key=lambda x: x[date_column_index], reverse=True)
+
+    # Update the sheet with the sorted data (keeping the header row in place)
+    sheet.update('A2', data)
+
+
 
