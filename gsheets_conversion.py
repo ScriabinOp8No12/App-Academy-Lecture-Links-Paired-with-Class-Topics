@@ -46,7 +46,7 @@ for email_data in emails_data:
         last_row = len(sheet.col_values(1))
         # Insert a new row after the last row of the sheet and input the values there!
         sheet.insert_row(values, last_row + 1)
-    # SORT the data in descending order, but don't touch the 1st row!
+    # ***** SORT the data in descending order, but don't also sort the 1st row because it has the headers! *****
     # Get all data from the sheet (including the header row)
     data = sheet.get_all_values()
     # Separate the header row from the rest of the data
@@ -60,5 +60,7 @@ for email_data in emails_data:
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
 
-
+# Even after sorting, the same dates stay in the same position, so we can run one more filter at the very end that removes
+# any of the rows after the first time that date shows up. For example, if there are 3 May 5ths, find the row with the lower row number
+# and then delete all the other rows
 
