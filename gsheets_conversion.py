@@ -64,3 +64,7 @@ for email_data in emails_data:
 # any of the rows after the first time that date shows up. For example, if there are 3 May 5ths, find the row with the lower row number
 # and then delete all the other rows
 
+# OR just use some logic that says, if the date is the same as the current one you are on, DO NOT ADD IT to the Google Sheets!
+# ALSO need to delete the Friday and Sunday lecture dates.
+# Could also add the day of the week on the far left, just left of the date
+
