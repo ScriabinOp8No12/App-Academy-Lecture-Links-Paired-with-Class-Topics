@@ -105,7 +105,7 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 3. Create a Google Sheet by going to www.drive.google.com, then click the "new" button in the top left and click on "Google Sheets"
 4. In the url of the page, copy the url part after "/d/" and before "/edit".  For example, if you had an url of the following
 <br>https://docs.google.com/spreadsheets/d/10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ/edit#gid=0
-<br>Your "SPREADSHEET_KEY would be:        10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ
+<br>       Your "SPREADSHEET_KEY would be: 10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ
                                                                                                     
 ### Applying the proper "sender" filter to Gmail API to find only the App Academy Emails with the lecture links in them
                          
