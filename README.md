@@ -25,12 +25,12 @@ to that exact Python module, and that I need to run that run configuration and N
 4. The Gmail API quickstart guide and tutorials from Youtube and ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The solution was adding my Gmail account under the "test users" field. 
 5. There's a strange bug where if you are selecting a certain range of cells in the Google Sheets while the program
-is adding data to it, Python will sometimes throw an error. It's pretty hard to replicate, and I'm not 100% sure the mouse location
+is adding data to it, Python will sometimes throw an error. It's pretty hard to replicate, and I'm not 100% sure the highlighted cell(s)
 is causing the problem, but if you move where the current selected cell is and delete all the data before running the
 Python program again, there's a good chance it will work! 
 
 # Setup
-Estimated setup time: 30 minutes - 1 hour 
+Estimated setup time: 30 - 90 minutes
 
 # Requirements: 
 1. Python 3.11+
@@ -106,5 +106,11 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 4. In the url of the page, copy the url part after "/d/" and before "/edit".  For example, if you had an url of the following
 <br>https://docs.google.com/spreadsheets/d/10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ/edit#gid=0
 <br>Your "SPREADSHEET_KEY would be:        10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ
-
-
+                                                                                                    
+### Applying the proper "sender" filter to Gmail API to find only the App Academy Emails with the lecture links in them
+                         
+1. At the bottom of the "NEW_gmail_zoom_links.py", there's a variable called "sender", you'll want to replace that 
+with the name of the sender. For example, our Cohort's sender looks like this: 2023-01-09-part-time-est@appacademy.io
+2. The way to test if it works is to go into your Gmail where you receive the lecture links, and then near the top in 
+really small font, you'll see the sender address.  See below image. 
+<br> <img src="images_for_readme/sender_screenshot_for_readme_AA_5_11_23.png" alt="Image of sender" width="200" height="200">
