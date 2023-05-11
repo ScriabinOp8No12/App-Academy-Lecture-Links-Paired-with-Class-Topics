@@ -113,4 +113,4 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 with the name of the sender. For example, our Cohort's sender looks like this: 2023-01-09-part-time-est@appacademy.io
 2. The way to test if it works is to go into your Gmail where you receive the lecture links, and then near the top in 
 really small font, you'll see the sender address.  See below image. 
-<br> <img src="images_for_readme/sender_screenshot_for_readme_AA_5_11_23.png" alt="Image of sender" width="200" height="200">
+<br> <img src="images_for_readme/sender_screenshot_for_readme_AA_5_11_23.png" alt="Image of sender">
