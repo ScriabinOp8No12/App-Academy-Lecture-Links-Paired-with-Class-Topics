@@ -23,7 +23,7 @@ dates_zoom_links_and_topics = emails_data
 
 # Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
 # then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
-# avoid lectures that are not valid (see below)
+# avoid lectures that are not valid.
 # Gmail api extracts the lectures with the most recent time (or latest time) first, so it's important to NOT run
 # this program until after all the Gmail zoom links have arrived in your Gmail inbox.  For example, let's say
 # at 5pm MT and 6pm MT, a lecture link is sent to your gmail. In our cohort, these are mistakes, and are 1-2 minute
@@ -48,8 +48,8 @@ for email_data in emails_data:
     formatted_date = date_obj.strftime('%B %d, %Y')
     zoom_link = email_data['zoom_link']
     passcode = email_data['passcode']
-    # If the Date doesn't show up in the Google sheet date column, only then do we update the values
-    if formatted_date not in dates_in_sheet:
+    # If the Date doesn't show up in the Google sheet date column, and the date isn't a Friday or Sunday
+    if formatted_date not in dates_in_sheet and date_obj.weekday() not in [4, 6]:
         # Add that date into the set, so we don't get duplicates
         dates_in_sheet.add(formatted_date)
         # NEXT STEP (add before if statement): Add App Academy Open topics to end of values list
@@ -73,11 +73,5 @@ for email_data in emails_data:
     sheet.update('A2', data)
 
 # print(dates_in_sheet)
-# Even after sorting, the same dates stay in the same position, so we can run one more filter at the very end that removes
-# any of the rows after the first time that date shows up. For example, if there are 3 May 5ths, find the row with the lower row number
-# and then delete all the other rows
 
-# OR just use some logic that says, if the date is the same as the current one you are on, DO NOT ADD IT to the Google Sheets!
-# ALSO need to delete the Friday and Sunday lecture dates.
-# Could also add the day of the week on the far left, just left of the date
 
