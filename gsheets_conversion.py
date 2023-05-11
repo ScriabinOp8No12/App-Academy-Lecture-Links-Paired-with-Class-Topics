@@ -32,7 +32,7 @@ dates_zoom_links_and_topics = emails_data
 # The Gmail API extracts them in the most recent order, so we can simply run this program, extract the correct
 # 11:30pm MT lecture, then store it in a set. Now if we try to grab the other ones from the same date, it won't
 # add those to the Google Sheets.
-dates_in_sheet = set(sheet.col_values(1)[1:])
+dates_in_sheet = set(sheet.col_values(2)[1:])
 
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
 for email_data in emails_data:
@@ -52,8 +52,10 @@ for email_data in emails_data:
     if formatted_date not in dates_in_sheet and date_obj.weekday() not in [4, 6]:
         # Add that date into the set, so we don't get duplicates
         dates_in_sheet.add(formatted_date)
+        # Get the day of the week as a string
+        day_of_week = date_obj.strftime('%A')
         # NEXT STEP (add before if statement): Add App Academy Open topics to end of values list
-        values = [formatted_date, zoom_link, passcode]
+        values = [day_of_week, formatted_date, zoom_link, passcode]
         # Find the last row of the sheet which has data in it (if it's empty, we start on row 1)
         last_row = len(sheet.col_values(1))
         # Insert a new row after the last row of the sheet and input the values there!
@@ -65,13 +67,12 @@ for email_data in emails_data:
     header = data[0]
     data = data[1:]
 
-    # Sort the data by the date column in descending order
-    date_column_index = 0
+    # Sort the data by the date column (column index 1) in descending order
+    date_column_index = 1
     data = sorted(data, key=lambda x: x[date_column_index], reverse=True)
 
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
 
-# print(dates_in_sheet)
 
 
