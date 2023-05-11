@@ -14,14 +14,14 @@ and finally store the topics into dictionaries.
 I wanted to hone my Python skills with this project, and create something that would benefit me and my classmates! 
 The hardest problems / bugs to solve were: 
 
-1. Selenium webdriver opens App Academy Open in the default light theme. However, I was using the dark theme 
-on App Academy Open, and unfortunately, some of the class names were different between the light and dark theme!
+1. Selenium webdriver loads App Academy Open on the Chrome browser in the default light theme. However, I was using the dark theme 
+on App Academy Open, and unfortunately, some of the class names were different between the light and dark theme. This caused bugs when I tried to scrape specific elements. 
 2. App Academy Open caches the last page you clicked on for that specific week. This was causing issues with the scraping
-because my code had Selenium try to click certain buttons, but they weren't always visible. This bug was hard to fix because 
-it wasn't consistent. The solution was to always click on the first day of the week that showed up in App Academy
+because my code had Selenium try to click certain elements, but they weren't always visible. This bug was hard to fix because 
+it wasn't consistent. The solution was to tell Selenium to always first click on the first day of the week that showed up in App Academy
 Open (like Monday) to avoid the cache issue.
 3. I was not properly using environment variables. I learned that the specific run configuration needs to have the path 
-to that exact python module, and that I need to run that run configuration and NOT the python module itself.
+to that exact Python module, and that I need to run that run configuration and NOT the Python module itself.
 4. The Gmail API quickstart guide and tutorials from Youtube and ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The solution was adding my Gmail account under the "test users" field. 
 
@@ -33,7 +33,7 @@ Estimated setup time: 30 minutes - 1 hour
 2. Gmail API 
 3. Gsheets Service Account 
 4. Email(s) from Gmail with the App Academy Zoom Lecture(s)
-5. App Academy Open Account and Google Chrome browser (both optional -> if you don't need the topics) 
+5. App Academy Open Account and Google Chrome browser (both optional -> if you don't need the topics App Academy Open) 
 6. Libraries for each Python module
 
 # Gmail API setup - Obtaining your Client ID and Client Secret:
