@@ -24,6 +24,10 @@ Open (like Monday) to avoid the cache issue.
 to that exact Python module, and that I need to run that run configuration and NOT the Python module itself.
 4. The Gmail API quickstart guide and tutorials from Youtube and ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The solution was adding my Gmail account under the "test users" field. 
+5. There's a strange bug where if you are selecting a certain range of cells in the Google Sheets while the program
+is adding data to it, Python will sometimes throw an error. It's pretty hard to replicate, and I'm not 100% sure the mouse location
+is causing the problem, but if you move where the current selected cell is and delete all the data before running the
+Python program again, there's a good chance it will work! 
 
 # Setup
 Estimated setup time: 30 minutes - 1 hour 
@@ -33,7 +37,7 @@ Estimated setup time: 30 minutes - 1 hour
 2. Gmail API 
 3. Gsheets Service Account 
 4. Email(s) from Gmail with the App Academy Zoom Lecture(s)
-5. App Academy Open Account and Google Chrome browser (both optional -> if you don't need the topics App Academy Open) 
+5. App Academy Open Account and Google Chrome browser (both optional -> if you don't need the topics from App Academy Open) 
 6. Libraries for each Python module
 
 # Gmail API setup - Obtaining your Client ID and Client Secret:
@@ -58,7 +62,7 @@ Here are the steps to follow (as seen above, but step 8 is crucial)
 
 # Gmail API - Obtaining your Access and Refresh Tokens 
 
-Note: you will need to go through these same 6 steps to get a new Access and Refresh Token every 7 days
+### Note: you will need to go through these same 6 steps to get a new Access and Refresh Token every 7 days
 
 1. This same article does a good job of explaining the steps for getting your access and refresh tokens!<br>https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
 2. Go to this link, then click the gear in the top right corner: https://developers.google.com/oauthplayground/
@@ -66,6 +70,11 @@ Note: you will need to go through these same 6 steps to get a new Access and Ref
 4. On the left side, under step 1, scroll down and click on "Gmail API v1". Select everything except "https://www.googleapis.com/auth/gmail.metadata"
 5. Click "Authorize APIs", leave all the boxes checked, and select your Gmail account
 6. For step 2, click "Exchange authorization code for tokens", then save your access and refresh tokens securely
+       
+# Google Sheets setup - Creating your Google service account
+
+1. asdf
+
 
 # Setting up Environment variables for gmail API (optional)
 
@@ -89,13 +98,13 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 <br>with 
 <br>client_id = [PUT YOUR CLIENT ID HERE WITHOUT THE SQUARE BRACKETS]
 
-### Setting up Environment variables for populating google sheets (optional)
+### Setting up Environment variables for Google Sheets (optional)
 
 1. Create another run configuration (steps 1-2) with the "Script Path" ending in "gsheets_conversion.py"
 2. In addition to entering the "CLIENT_ID", "CLIENT_SECRET", "REFRESH_TOKEN", "ACCESS_TOKEN", also add a "SPREADSHEET_KEY" (follow the below steps)
 3. Create a Google Sheet by going to www.drive.google.com, then click the "new" button in the top left and click on "Google Sheets"
 4. In the url of the page, copy the url part after "/d/" and before "/edit".  For example, if you had an url of the following
-https://docs.google.com/spreadsheets/d/10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ/edit#gid=0
-Your "SPREADSHEET_KEY would be:        10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ
+<br>https://docs.google.com/spreadsheets/d/10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ/edit#gid=0
+<br>Your "SPREADSHEET_KEY would be:        10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ
 
 
