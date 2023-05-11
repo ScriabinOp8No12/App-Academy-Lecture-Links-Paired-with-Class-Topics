@@ -72,7 +72,7 @@ Note: you will need to go through these same 6 steps to get a new Access and Ref
 If you are setting up a private repo or don't mind having your sensitive Client ID, Client Secret, and authorization tokens visible
 within your code, you don't have to set up environment variables, but it is good practice because it protects your sensitive information.  
 
-Setup for Pycharm:
+### Setup for Pycharm:
 
 1. Click the menu icon in the top left, and then click "Run" then click "Edit Configurations"
 2. Click the plus icon in the top left, then click "Python" in the drop-down menu
@@ -89,7 +89,7 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 <br>with 
 <br>client_id = [PUT YOUR CLIENT ID HERE WITHOUT THE SQUARE BRACKETS]
 
-Setting up Environment variables for populating google sheets (optional)
+### Setting up Environment variables for populating google sheets (optional)
 
 1. Create another run configuration (steps 1-2) with the "Script Path" ending in "gsheets_conversion.py"
 2. In addition to entering the "CLIENT_ID", "CLIENT_SECRET", "REFRESH_TOKEN", "ACCESS_TOKEN", also add a "SPREADSHEET_KEY" (follow the below steps)
