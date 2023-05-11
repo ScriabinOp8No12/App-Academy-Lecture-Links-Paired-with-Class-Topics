@@ -92,4 +92,10 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 Setting up Environment variables for populating google sheets (optional)
 
 1. Create another run configuration (steps 1-2) with the "Script Path" ending in "gsheets_conversion.py"
-2. 2.In addition to entering the "CLIENT_ID", "CLIENT_SECRET", "REFRESH_TOKEN", "ACCESS_TOKEN", also add a "SPREADSHEET_KEY"
+2. In addition to entering the "CLIENT_ID", "CLIENT_SECRET", "REFRESH_TOKEN", "ACCESS_TOKEN", also add a "SPREADSHEET_KEY" (follow the below steps)
+3. Create a Google Sheet by going to www.drive.google.com, then click the "new" button in the top left and click on "Google Sheets"
+4. In the url of the page, copy the url part after "/d/" and before "/edit".  For example, if you had an url of the following
+https://docs.google.com/spreadsheets/d/10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ/edit#gid=0
+Your "SPREADSHEET_KEY would be:        10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ
+
+
