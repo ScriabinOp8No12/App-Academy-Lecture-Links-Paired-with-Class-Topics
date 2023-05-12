@@ -5,10 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import os
 import time
-import requests
-import pandas as pd
 
-# ** Make sure to run "AA_Environment_Variable"  NOT THE ACTUAL PYTHON FILE
+# ** Make sure to run "aa_open" run configuration NOT THE ACTUAL PYTHON FILE
 
 main_page_url = r'https://open.appacademy.io/learn/js-py---pt-jan-2023-online/'
 login_page_url = r'https://open.appacademy.io/login'
@@ -64,7 +62,9 @@ for week_element in week_links:
 
 print(week_names)
 
+
 topics = []
+final_list_of_dictionaries = []
 
 for week_name in week_names:
     # Find the ELEMENTS (not element without the s) containing the week name
@@ -82,7 +82,7 @@ for week_name in week_names:
             if day_text in days:
                 # just click on the first day we see that's valid, that will allow the entire html to load
                 browser.execute_script("arguments[0].click();", day_element)
-                print(f"Clicked on {day_text}")
+                # print(f"Clicked on {day_text}")
                 # IMPORTANT: Need to wait at least 2 seconds otherwise THE URL WON'T CHANGE (it'll grab wrong data)
                 time.sleep(2)
                 # once we click on a valid day, all the html for the week will be properly loaded, so we break the loop
@@ -101,14 +101,14 @@ for week_name in week_names:
         # some days have a different class for some reason, even though they are both light themed
         h3_elements = each_day_doc.find_all('h3', class_=['sc-dnqmqq kcAQXs', 'sc-dnqmqq jLQnpZ'])
 
-        days = {}
+        individual_dictionaries = {}
         valid_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday']
         not_valid_topics = ['Learning Boost', 'End of Day', 'Formative Quiz', 'Practice Problems']
         for h3_element in h3_elements:
             if h3_element.text in valid_days:
                 # Set the variable name then the key of the dictionary to be the valid day of the week
                 current_day = h3_element.text
-                days[current_day] = []
+                individual_dictionaries[current_day] = []
                 # Use the ul tag to find the topics names within the current valid day, search for the next ul element
                 next_ul = h3_element.find_next('ul')
                 # If there is another ul element, then find all the li elements within the ul element
@@ -120,68 +120,14 @@ for week_name in week_names:
                         # If the text isn't within the invalid topics list, then add the topic text value as a value
                         # of the current day we are on (start at Monday)
                         if topic_header and topic_header.text not in not_valid_topics:
-                            days[current_day].append(topic_header.text)
+                            individual_dictionaries[current_day].append(topic_header.text)
+        final_list_of_dictionaries.append(individual_dictionaries)
 
-        print(days)
-
+        print(individual_dictionaries)
 
     browser.get(main_page_url)
     # Have to find the menu_element here again (won't work if we use just the line below that)
     menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
     browser.execute_script('arguments[0].click();', menu_element)
 
-
-# **** Explanation of the code ****
-
-# This code uses BeautifulSoup to parse the HTML of the web page you’re trying to extract information from.
-# It finds all the h3 elements with class 'sc-dnqmqq kcAQXs' using the find_all method and stores them in the
-# h3_elements variable. It then creates a dictionary called days where the keys are the days of the week and the
-# values are lists of topics for that day. The valid_days list specifies which days you’re interested in extracting
-# topics for and the not_valid_topics list specifies which topics to exclude.
-#
-# The code iterates over the h3_elements and checks if their text is one of the valid days specified in the
-# valid_days list. If it is, it sets the current_day variable to be the text of the h3_element and creates a new entry
-# in the days dictionary for that day. It then finds the next ul element after the current h3_element using the
-# find_next method. If it finds a ul element, it finds all the li elements within it using the find_all method and
-# iterates over them. For each li element, it finds a header element with class 'sc-gqjmRU kvshPl' within it using the
-# find method. If it finds a header element and its text is not in the not_valid_topics list, it appends its text to
-# the list of topics for the current day.
-
-
-# *************** My original plan, was off a little bit ************
-
-# Start at the upper most h3 element. Start a loop to go through all the h3 elements.
-# If the text value of the h3 element is not Monday, Tuesday, Wednesday, Thursday, or Saturday, then break.
-# If it is one of those days, then
-
-#  find the next ul element after the current h3_element using the find_next method
-#  If it finds a ul element, it finds all the li elements within it using the find_all method and iterates over them.
-#  For each li element, it finds a header element with class 'sc-gqjmRU kvshPl' within it using the find method.
-#  If it finds a header element and its text is not in the not_valid_topics list,
-#  it appends its text to the list of topics for the current day.
-
-# store all of the header elements with class 'sc-gqjmRU kvshPl' text values
-# in a dictionary as values (use a list for the values) with the h3 element as the key.
-# for the starting one, that would be Monday as the key, with values of the heading element with class
-# elements with class 'sc-gqjmRU kvshPl' which is {'Monday', ['Orientation', Skills Survey']
-# now since it finished finding all those heading elements, it starts over at the next h3 element in the loop.
-
-# ***********************************************************************************************************
-
-# My original code block below to print everything out
-
-
-# h3_elements = each_day_doc.find_all('h3', class_=['sc-dnqmqq kcAQXs', 'sc-dnqmqq jLQnpZ'])
-# for h3_element in h3_elements:
-#     print('days:', h3_element.text)
-# # Get the topic elements from the updated doc object -> these are TOPICS
-# topic_elements = each_day_doc.find_all('header', class_='sc-gqjmRU kvshPl')
-# for topic_element in topic_elements:
-#     # valid topics
-#     if topic_element.text not in not_valid_topics:
-#         print("topics:", topic_element.text)
-# this code block above prints out all the days and topics
-
-# print(each_day_doc)
-
-#***********************************************************************************************
+print(final_list_of_dictionaries, "*********************************** FINAL OUTPUT HERE ******************************")
