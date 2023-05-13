@@ -16,15 +16,11 @@ The hardest problems / bugs to solve were:
 
 1. Selenium webdriver loads App Academy Open on the Chrome browser in the default light theme. However, I was using the dark theme 
 on App Academy Open, and unfortunately, some of the class names were different between the light and dark theme. This caused bugs when I tried to scrape specific elements. 
-2. App Academy Open caches the last page you clicked on for that specific week. This was causing issues with the scraping
-because my code had Selenium try to click certain elements, but they weren't always visible. This bug was hard to fix because 
-it wasn't consistent. The solution was to tell Selenium to always first click on the first day of the week that showed up in App Academy
-Open (like Monday) to avoid the cache issue.
-3. I was not properly using environment variables. I learned that the specific run configuration needs to have the path 
+2. I was not properly using environment variables. I learned that the specific run configuration needs to have the path 
 to that exact Python module, and that I need to run that run configuration and NOT the Python module itself.
-4. The Gmail API quickstart guide and tutorials from Youtube and ChatGPT were missing a key component, which stopped me 
+3. The Gmail API quickstart guide and tutorials from Youtube and ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The solution was adding my Gmail account under the "test users" field. 
-5. There's a strange bug where if you are selecting a certain range of cells in the Google Sheets while the program
+4. There's a strange bug where if you are selecting a certain range of cells in the Google Sheets while the program
 is adding data to it, Python will sometimes throw an error. It's pretty hard to replicate, and I'm not 100% sure the highlighted cell(s)
 is causing the problem, but if you move where the current selected cell is and delete all the data before running the
 Python program again, there's a good chance it will work! 
@@ -73,27 +69,28 @@ Here are the steps to follow (as seen above, but step 8 is crucial)
        
 # Google Sheets setup - Creating your Google service account
 
-1. asdf
+Sure! Here are the complete instructions to create a Google Sheets service account once you have your Gmail API already set up:
 
+ChatGPT instructions below, I need to manually test it out now
+1. In the **Google Cloud console**, go to **Menu** > **IAM & Admin** > **Service Accounts**.
+2. Click **Create service account**.# Setting up Environment variables for gmail API (optional)
+3. Fill in the service account details, then click **Create and continue**.
+4. In the **Google Admin console**, go to **Menu** > **Security** > **Access and data control** > **API controls**.If you are setting up a private repo or don't mind having your sensitive Client ID, Client Secret, and authorization tokens visible
+5. Click **Manage Domain Wide Delegation**.within your code, you don't have to set up environment variables, but it is good practice because it protects your sensitive information.  
+6. Click **Add new**.
+7. In the **Client ID** field, paste the client ID you copied in step 5.### Setup for Pycharm:
+8. In the **OAuth Scopes** field, enter a comma-delimited list of OAuth scopes.
+9. In the **Google Cloud console**, go to **Menu** > **APIs & Services** > **Library**.1. Click the menu icon in the top left, and then click "Run" then click "Edit Configurations"
+10. Search for and click on the **Google Sheets API**.2. Click the plus icon in the top left, then click "Python" in the drop-down menu
+11. Click **Enable**.3. Under "Script Path", enter the path to the "NEW_gmail_zoom_links.py" file which would look something like this:
+12. In the **Google Cloud console**, go to **Menu** > **IAM & Admin** > **Service Accounts**.C:\Users\[YOUR USERNAME HERE]\[FOLDER OF PYTHON PROJECTS]\zoom-links-and-topic-app-academy\NEW_gmail_zoom_links.py
+13. Click on the service account you created.4. Under "Environment Variables", click the "Edit Environment Variables button" on the right, which looks like a rectangle with 3 lines on it
+14. Click on the **Keys** tab.5. Click the + button in the top left, and input "CLIENT_ID" with your own value.  
+15. Click **Add Key** > **Create new key**.6. Repeat step 5 with "CLIENT_SECRET", "REFRESH_TOKEN", and "ACCESS_TOKEN", then click "Apply" and "Ok"
+16. Select **JSON** as the key type and click **Create**.7. If you choose not to create environment variables, you can simply find each of these values in the code, and replace everything
+17. A JSON key file will be downloaded to your computer. You should store this file securely and use it to authenticate your application with the service account.after the "=" with the value.
 
-# Setting up Environment variables for gmail API (optional)
-
-If you are setting up a private repo or don't mind having your sensitive Client ID, Client Secret, and authorization tokens visible
-within your code, you don't have to set up environment variables, but it is good practice because it protects your sensitive information.  
-
-### Setup for Pycharm:
-
-1. Click the menu icon in the top left, and then click "Run" then click "Edit Configurations"
-2. Click the plus icon in the top left, then click "Python" in the drop-down menu
-3. Under "Script Path", enter the path to the "NEW_gmail_zoom_links.py" file which would look something like this:
-C:\Users\[YOUR USERNAME HERE]\[FOLDER OF PYTHON PROJECTS]\zoom-links-and-topic-app-academy\NEW_gmail_zoom_links.py
-4. Under "Environment Variables", click the "Edit Environment Variables button" on the right, which looks like a rectangle with 3 lines on it
-5. Click the + button in the top left, and input "CLIENT_ID" with your own value.  
-6. Repeat step 5 with "CLIENT_SECRET", "REFRESH_TOKEN", and "ACCESS_TOKEN", then click "Apply" and "Ok"
-7. If you choose not to create environment variables, you can simply find each of these values in the code, and replace everything
-after the "=" with the value.
-
-For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would replace
+Is there anything else you need help with?For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would replace
 <br>client_id = os.environ['CLIENT_ID']
 <br>with 
 <br>client_id = [PUT YOUR CLIENT ID HERE WITHOUT THE SQUARE BRACKETS]
