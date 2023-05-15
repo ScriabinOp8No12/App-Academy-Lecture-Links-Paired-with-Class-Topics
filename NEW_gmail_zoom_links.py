@@ -40,7 +40,7 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
             decoded_data = base64.b64decode(data)
             # Convert decoded data to string
             content = decoded_data.decode('utf-8')
-            # Parse email content using BeautifulSoup
+            # ****************** Parse email content using BeautifulSoup ************************
             soup = BeautifulSoup(content, 'html.parser')
             # Find passcode
             passcode = soup.find('span').text.split(': ')[1]
@@ -78,6 +78,6 @@ access_token = os.environ['ACCESS_TOKEN']
 refresh_token = os.environ['REFRESH_TOKEN']
 client_id = os.environ['CLIENT_ID']
 client_secret = os.environ['CLIENT_SECRET']
-sender = '2023-01-09-part-time-est@appacademy.io'
+sender = os.environ['EMAIL_OF_SENDER']
 
 get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender)
