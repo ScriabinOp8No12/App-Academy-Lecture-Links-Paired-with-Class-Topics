@@ -16,7 +16,15 @@ The hardest problems / bugs to solve were:
 
 1. Selenium webdriver loads App Academy Open on the Chrome browser in the default light theme. However, I was using the dark theme 
 on App Academy Open, and unfortunately, some of the class names were different between the light and dark theme. This caused bugs when I tried to scrape specific elements. 
-2. I was not properly using environment variables. I learned that the specific run configuration needs to have the path 
+2. When trying to extract the Zoom links from the older emails which were done as attachments, I ran into a similar problem as above.
+I used the inspect tool on Chrome to look at which elements to find with Beautiful soup, but the data was different from the Beautiful soup output 
+I had in Python.  The issue is the Beautiful soup output had 3 escape characters: '=', '/r', and '/n',
+which caused the Zoom link extraction to fail to grab the correct Zoom links. It seems that because these lecture emails 
+were in attachments rather than being sent to my inbox directly, the Beautiful soup output format was different.  
+The question I kept asking myself was: 
+<br>"How can these emails I'm receiving look the exact same, and have the same HTML when using the inspect tool, 
+<br> but the Python code that properly extracts data from the emails sent to me directly works while the other email that has them as attachments doesn't work?"
+3. I was not properly using environment variables. I learned that the specific run configuration needs to have the path 
 to that exact Python module, and that I need to run that run configuration and NOT the Python module itself.
 3. The Gmail API quickstart guide and tutorials from Youtube and ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The solution was adding my Gmail account under the "test users" field. 
