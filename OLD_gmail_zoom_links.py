@@ -1,16 +1,8 @@
 # This python file will extract the zoom links from the older recordings (before April 20th)
-# They are all within one giant email (from April 20th, 11:40pm MT), so it shouldn't be too hard.
+# They were sent to me as 50 attachments within one email (from April 20th, 11:40pm MT)
 # All the recent / new emails that came in after April 20th arrive in my inbox once the lecture is recorded
-# and are from a different sender
+# and are from a different sender (App Academy)
 
-# Need to specify a specific email with all 50 old lecture recordings since I received multiple
-# emails from my instructor, and I don't want to have to filter anything
-from googleapiclient.discovery import build
-from google.oauth2.credentials import Credentials
-import base64
-from bs4 import BeautifulSoup
-import os
-import re
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 import base64
@@ -55,6 +47,7 @@ def get_attachments_from_email(access_token, refresh_token, client_id, client_se
 
         content = data.decode('utf-8')
         soup = BeautifulSoup(content, 'html.parser')
+        # Convert the beautifulsoup output to a string!
         body_html = str(soup.body)
 
         attachments_html.append(body_html)
@@ -68,28 +61,25 @@ client_secret = os.environ['CLIENT_SECRET']
 sender = os.environ['INSTRUCTOR_EMAIL']
 email_subject = 'recordings'
 
+# For above 'sender' and 'email_subject' variable
+# Need to specify a specific email with all 50 old lecture recordings since I received multiple
+# emails from my instructor, and I don't want to have to filter anything
+
 attachments_html = get_attachments_from_email(access_token, refresh_token, client_id, client_secret, sender, email_subject)
 
-counter = 1
+# Use a counter to verify that there are 50 zoom links because there were 50 email attachments
+# counter = 1
 zoom_link_prefix = 'https://us02web.zoom.us/rec/share/'
 # Find and print out Zoom links from attachments HTML
 for html in attachments_html:
 
-    # Remove escape characters
+    # Remove escape characters, this was the main issue!
     html = html.replace('=\r\n', '')
     soup = BeautifulSoup(html, 'html.parser')
+    # Find the specific zoom links that have an <a> tag, with text that starts with the zoom_link_prefix value above
     zoom_links = soup.find_all('a', string=lambda text: text and text.startswith(zoom_link_prefix))
     for zoom_link in zoom_links:
-        print(zoom_link.text, counter)
-        counter +=1
+        print(zoom_link.text)
+        # print(zoom_link.text, counter)
+        # counter +=1
 
-
-    # # Remove escape characters
-    # html = html.replace('=\r\n', '')
-    # soup = BeautifulSoup(html, 'html.parser')
-    # zoom_link = soup.find('a', href=lambda href: href and 'zoom.us' in href)
-    # # if zoom_link:
-    # #     print(zoom_link.text)
-
-# Print out attachments HTML
-#print(attachments_html)
