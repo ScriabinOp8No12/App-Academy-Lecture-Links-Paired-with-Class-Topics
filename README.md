@@ -111,7 +111,7 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 <br>with 
 <br>client_id = [PUT YOUR CLIENT ID HERE WITHOUT THE SQUARE BRACKETS]
 
-### Setting up Environment variables for Google Sheets (optional)
+# Setting up Environment variables for Google Sheets (optional)
 
 1. Create another run configuration (steps 1-2) with the "Script Path" ending in "gsheets_conversion.py"
 2. In addition to entering the "CLIENT_ID", "CLIENT_SECRET", "REFRESH_TOKEN", "ACCESS_TOKEN", also add a "SPREADSHEET_KEY" (follow the below steps)
@@ -120,10 +120,10 @@ For example, at the bottom of the file "NEW_gmail_zoom_links.py", you would repl
 <br>https://docs.google.com/spreadsheets/d/10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ/edit#gid=0
 <br>       Your "SPREADSHEET_KEY would be: 10n_41QH-U9_hktOJt_qBNw0s1WE0gaDcuD0jCosiUdQ
                                                                                                     
-### Applying the proper "sender" filter to Gmail API to find only the App Academy Emails with the lecture links in them
+# Applying the proper "sender" filter to Gmail API to find only the App Academy Emails with the lecture links in them
                          
-1. At the bottom of the "NEW_gmail_zoom_links.py", there's a variable called "sender", you'll want to replace that 
-with the name of the sender. 
-2. The way to test if it works is to go into your Gmail where you receive the lecture links, and then near the top in 
+1. At the bottom of the "NEW_gmail_zoom_links.py", there's a variable called "sender", you'll want to replace that environment variable
+with the name of the sender. For example, you'll want to create an environment variable with name of EMAIL_OF_SENDER and a value of the sender's email. 
+2. To find the sender's Gmail, go into your Gmail where you receive the lecture links, and then near the top in 
 really small font, you'll see the sender address.  See below image. 
 <br> <img src="images_for_readme/sender_screenshot_for_readme_AA_5_11_23.png" alt="Image of sender">
