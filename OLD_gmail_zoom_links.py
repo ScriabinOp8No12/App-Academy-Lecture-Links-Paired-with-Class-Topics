@@ -52,6 +52,7 @@ def get_attachments_from_email(access_token, refresh_token, client_id, client_se
 
     attachments_html = []
     for data in attachments_data:
+
         content = data.decode('utf-8')
         soup = BeautifulSoup(content, 'html.parser')
         body_html = str(soup.body)
@@ -69,5 +70,26 @@ email_subject = 'recordings'
 
 attachments_html = get_attachments_from_email(access_token, refresh_token, client_id, client_secret, sender, email_subject)
 
+counter = 1
+zoom_link_prefix = 'https://us02web.zoom.us/rec/share/'
+# Find and print out Zoom links from attachments HTML
+for html in attachments_html:
+
+    # Remove escape characters
+    html = html.replace('=\r\n', '')
+    soup = BeautifulSoup(html, 'html.parser')
+    zoom_links = soup.find_all('a', string=lambda text: text and text.startswith(zoom_link_prefix))
+    for zoom_link in zoom_links:
+        print(zoom_link.text, counter)
+        counter +=1
+
+
+    # # Remove escape characters
+    # html = html.replace('=\r\n', '')
+    # soup = BeautifulSoup(html, 'html.parser')
+    # zoom_link = soup.find('a', href=lambda href: href and 'zoom.us' in href)
+    # # if zoom_link:
+    # #     print(zoom_link.text)
+
 # Print out attachments HTML
-print(attachments_html)
+#print(attachments_html)
