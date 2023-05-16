@@ -2,14 +2,15 @@
 # They were sent to me as 50 attachments within one email (from April 20th, 11:40pm MT)
 # All the recent / new emails that came in after April 20th arrive in my inbox once the lecture is recorded
 # and are from a different sender (App Academy)
-# There's an extremely good chance that you won't need this Python module because all the emails you receive will
-# be from app academy and not be in attachments!
+# There's a high chance that you won't need this Python module because all the emails you receive will
+# be from App Academy and not be in attachments!
 
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from bs4 import BeautifulSoup
 import base64
 import os
+
 
 def get_attachments_from_email(access_token, refresh_token, client_id, client_secret, sender, email_subject):
     # Create credentials object from access token
@@ -56,6 +57,7 @@ def get_attachments_from_email(access_token, refresh_token, client_id, client_se
 
     return attachments_html
 
+
 access_token = os.environ['ACCESS_TOKEN']
 refresh_token = os.environ['REFRESH_TOKEN']
 client_id = os.environ['CLIENT_ID']
@@ -73,7 +75,7 @@ zoom_link_prefix = 'https://us02web.zoom.us/rec/share/'
 
 zoom_links_and_passcodes = []
 for html in attachments_html:
-    # Remove escape characters, this was the main issue!
+    # Remove escape characters, this was the main issue that caused everything else to break!
     html = html.replace('=\r\n', '')
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -84,6 +86,7 @@ for html in attachments_html:
         date_div = recording_div.find_next_sibling('div')
         if date_div:
             date = date_div.text.split('\n')[2].strip()
+        # some error handling just in case
         else:
             date = None
     else:
@@ -95,14 +98,10 @@ for html in attachments_html:
 
     # Find the specific zoom links that have an <a> tag, with text that starts with the zoom_link_prefix value seen about 25 lines higher
     zoom_links = soup.find_all('a', string=lambda text: text and text.startswith(zoom_link_prefix))
-
+    # Zip function creates a tuple, and pairs everything in the lists until one list has more items than the other
+    # Iterate over two lists, zoom_links and passcodes, at the same time. For each iteration, we append a dictionary to
+    # the zoom_links_and_passcodes list that contains the current date, zoom link, and passcode
     for zoom_link, passcode in zip(zoom_links, passcodes):
         zoom_links_and_passcodes.append({'date': date, 'zoom_link': zoom_link.text, 'passcode': passcode})
 
 print(zoom_links_and_passcodes)
-
-# prints out 50, which is correct
-# print(zoom_links_and_passcodes, len(zoom_links_and_passcodes))
-
-
-
