@@ -5,8 +5,7 @@ Open Topics for that day. The data is then conveniently stored into Google sheet
 in one place when they need to review the class material.  
 
 The Zoom links, passcodes, and dates are extracted from Gmail using the Gmail API and then stored in Google Sheets by
-using a Google Sheets service account.  The Google Sheets API was not used. The App Academy Open topics are scraped 
-using Selenium webdriver, using fairly complex logic to log in, click on specific elements, scrape neighbor elements, 
+using a Google Sheets service account. The App Academy Open topics are scraped using Selenium webdriver, using fairly complex logic to log in, click on specific elements, scrape neighbor elements, 
 and finally store the topics into dictionaries. 
 
 # Motivation and greatest challenges
@@ -34,7 +33,7 @@ is causing the problem, but if you move where the current selected cell is and d
 Python program again, there's a good chance it will work! 
 
 # Setup
-Estimated setup time: 30 - 90 minutes
+Estimated setup time: 60 - 90 minutes
 
 # Requirements: 
 1. Python 3.11+
@@ -75,7 +74,7 @@ Here are the steps to follow (as seen above, but step 8 is crucial)
 5. Click "Authorize APIs", leave all the boxes checked, and select your Gmail account
 6. For step 2, click "Exchange authorization code for tokens", then save your access and refresh tokens securely
        
-# Google Sheets setup - Creating your Google service account
+# Google Sheets setup - Creating your Google service account (STEPS ARE LIKELY WRONG RIGHT NOW 5/15/23)
     
 ChatGPT output instructions after I helped it a bit, need to test this again myself because I forgot how I did it the first time
 
