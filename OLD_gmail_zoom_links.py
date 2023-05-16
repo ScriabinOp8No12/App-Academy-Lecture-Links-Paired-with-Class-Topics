@@ -1,12 +1,14 @@
-# This python file will extract the zoom links from the older recordings (before April 20th)
+# This python file extracts the zoom links from the older recordings (before April 20th)
 # They were sent to me as 50 attachments within one email (from April 20th, 11:40pm MT)
 # All the recent / new emails that came in after April 20th arrive in my inbox once the lecture is recorded
 # and are from a different sender (App Academy)
+# There's an extremely good chance that you won't need this Python module because all the emails you receive will
+# be from app academy and not be in attachments!
 
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
-import base64
 from bs4 import BeautifulSoup
+import base64
 import os
 
 def get_attachments_from_email(access_token, refresh_token, client_id, client_secret, sender, email_subject):
@@ -67,19 +69,40 @@ email_subject = 'recordings'
 
 attachments_html = get_attachments_from_email(access_token, refresh_token, client_id, client_secret, sender, email_subject)
 
-# Use a counter to verify that there are 50 zoom links because there were 50 email attachments
-# counter = 1
 zoom_link_prefix = 'https://us02web.zoom.us/rec/share/'
-# Find and print out Zoom links from attachments HTML
-for html in attachments_html:
 
+zoom_links_and_passcodes = []
+for html in attachments_html:
     # Remove escape characters, this was the main issue!
     html = html.replace('=\r\n', '')
     soup = BeautifulSoup(html, 'html.parser')
-    # Find the specific zoom links that have an <a> tag, with text that starts with the zoom_link_prefix value above
+
+    # Find date
+    recording_div = soup.find('div', string="Your cloud recording is now available.")
+    if recording_div:
+        # find next div sibling after we find the div with "Your cloud recording is now available."
+        date_div = recording_div.find_next_sibling('div')
+        if date_div:
+            date = date_div.text.split('\n')[2].strip()
+        else:
+            date = None
+    else:
+        date = None
+
+    # Find passcodes by looking for a span tag with a starting text of "Passcode:"
+    passcodes = [span.text.split(': ')[1] for span in
+                 soup.find_all('span', string=lambda text: text and text.startswith('Passcode:'))]
+
+    # Find the specific zoom links that have an <a> tag, with text that starts with the zoom_link_prefix value seen about 25 lines higher
     zoom_links = soup.find_all('a', string=lambda text: text and text.startswith(zoom_link_prefix))
-    for zoom_link in zoom_links:
-        print(zoom_link.text)
-        # print(zoom_link.text, counter)
-        # counter +=1
+
+    for zoom_link, passcode in zip(zoom_links, passcodes):
+        zoom_links_and_passcodes.append({'date': date, 'zoom_link': zoom_link.text, 'passcode': passcode})
+
+print(zoom_links_and_passcodes)
+
+# prints out 50, which is correct
+# print(zoom_links_and_passcodes, len(zoom_links_and_passcodes))
+
+
 
