@@ -4,9 +4,12 @@ This Python project automatically grabs all the App Academy Lecture Zoom links a
 Open Topics for that day. The data is then conveniently stored into Google sheets so that students can access everything 
 in one place when they need to review the class material.  
 
-The Zoom links, passcodes, and dates are extracted from Gmail using the Gmail API and then stored in Google Sheets by
-using a Google Sheets service account. The App Academy Open topics are scraped using Selenium webdriver, using fairly complex logic to log in, click on specific elements, scrape neighbor elements, 
-and finally store the topics into dictionaries. 
+The zoom lecture links, passcodes, and dates are extracted from Gmail using the Gmail API along with beautiful soup to parse the data.  
+The data is then stored in Google Sheets by using a Google Sheets service account. The App Academy Open topics are 
+scraped using Selenium webdriver, using fairly complex logic to log in, click on specific elements, scrape neighbor elements 
+using a series of conditionals, and finally store the topics into dictionaries with the key being the day of the week and
+value being the topics for that day. Finally, the topic keys are converted to a date using DateTime object and timedelta,
+and the 3 weekly App Academy holidays are skipped to ensure proper pairing of topics with zoom lecture links.
 
 # Motivation and greatest challenges
 
