@@ -28,7 +28,11 @@ works while the other email that has them as attachments doesn't work?"
 to that exact Python module, and that I need to run that run configuration and NOT the Python module itself.
 4. The Gmail API quickstart guide and tutorials from Youtube and ChatGPT were missing a key component, which stopped me 
 from getting my authentication tokens. The solution was adding my Gmail account under the "test users" field. 
-5. There's a strange bug where if you are selecting a certain range of cells in the Google Sheets while the program
+5. The Google Sheets quota cap messes up the sorting function so the zoom links will be in the wrong order at 2 specific 
+points.  I think the solution is to either not use the sorting function on the date, or to add the App Academy topics
+to the row when inserting it.  That might fix the last row counter (I noticed that the data was sorted properly, except
+when the App Academy Open topics weren't added to the row yet)
+6. There's a strange bug where if you are selecting a certain range of cells in the Google Sheets while the program
 is adding data to it, Python will sometimes throw an error. It's pretty hard to replicate, and I'm not 100% sure the highlighted cell(s)
 is causing the problem, but if you move where the current selected cell is and delete all the data before running the
 Python program again, there's a good chance it will work! 
