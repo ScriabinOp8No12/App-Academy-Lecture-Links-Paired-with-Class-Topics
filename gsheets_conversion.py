@@ -1,7 +1,8 @@
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 import os
+from oauth2client.service_account import ServiceAccountCredentials
 from NEW_gmail_zoom_links import emails_data
+from OLD_gmail_zoom_links import zoom_links_passcodes_dates
 from datetime import datetime
 
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
@@ -15,11 +16,14 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheet
 client = gspread.authorize(creds)
 
 # Open the Google Sheet (specify the sheet name)
-# sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
 # Get the email data from the gmail_api email output ('NEW_gmail_zoom_links.py')
 dates_zoom_links_and_topics = emails_data
+
+# Get the old email data from the 50 attachments email
+old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
 
 # Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
 # then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
@@ -74,5 +78,47 @@ for email_data in emails_data:
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
 
+
+# ----------------- OLD EMAIL DATA BELOW -----------------------
+# Now we populate the old links, make sure we test it on the test sheet, so we don't break anything
+    # ctrl z doesn't work on Google sheets once Python adds data to it
+for email_data in zoom_links_passcodes_dates:
+    # Original date string: Date: May 2, 2023 03:58 PM Central Time (US and Canada)
+    date_str = email_data['date']
+    # Split between the end of "Date:" and before "Central Time"
+    # Output is now: May 2, 2023 03:58 PM
+    date_str = date_str.split('Date: ')[1].split('Central Time')[0].strip()
+    # Parse string into a datetime object, based on the following format
+    # %b: month name, %d: zero padded day, %Y: 4 digit year, etc
+    date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M %p')
+    # We only want the month, day, and year.  Output is: May 02, 2023
+    formatted_date = date_obj.strftime('%B %d, %Y')
+    zoom_link = email_data['zoom_link']
+    passcode = email_data['passcode']
+    # If the Date doesn't show up in the Google sheet date column, and the date isn't a Friday or Sunday
+    if formatted_date not in dates_in_sheet and date_obj.weekday() not in [4, 6]:
+        # Add that date into the set, so we don't get duplicates
+        dates_in_sheet.add(formatted_date)
+        # Get the day of the week as a string
+        day_of_week = date_obj.strftime('%A')
+        # NEXT STEP (add before if statement): Add App Academy Open topics to end of values list
+        values = [day_of_week, formatted_date, zoom_link, passcode]
+        # Find the last row of the sheet which has data in it (if it's empty, we start on row 1)
+        last_row = len(sheet.col_values(1))
+        # Insert a new row after the last row of the sheet and input the values there!
+        sheet.insert_row(values, last_row + 1)
+    # ***** SORT the data in descending order, but don't also sort the 1st row because it has the headers! *****
+    # Get all data from the sheet (including the header row)
+    data = sheet.get_all_values()
+    # Separate the header row from the rest of the data
+    header = data[0]
+    data = data[1:]
+
+    # Sort the data by the date column (column index 1) in descending order
+    date_column_index = 1
+    data = sorted(data, key=lambda x: x[date_column_index], reverse=True)
+
+    # Update the sheet with the sorted data (keeping the header row in place)
+    sheet.update('A2', data)
 
 
