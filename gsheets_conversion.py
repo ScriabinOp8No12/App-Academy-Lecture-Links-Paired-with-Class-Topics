@@ -5,6 +5,7 @@ from NEW_gmail_zoom_links import emails_data
 from OLD_gmail_zoom_links import zoom_links_passcodes_dates
 from datetime import datetime
 
+
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
 SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
 
@@ -19,7 +20,23 @@ client = gspread.authorize(creds)
 #sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
+# Sort it once at the start to avoid the bug with the requests limit exceeded and the weird behavior of
+# the lectures getting put in the wrong place (sorts it properly, but starts at the wrong spot)
+
+# data = sheet.get_all_values()
+# # Separate the header row from the rest of the data
+# header = data[0]
+# data = data[1:]
+#
+# # Sort the data by the date column (column index 1) in descending order
+# date_column_index = 1
+# data = sorted(data, key=lambda x: x[date_column_index], reverse=True)
+#
+# # Update the sheet with the sorted data (keeping the header row in place)
+# sheet.update('A2', data)
+
 # Get the email data from the gmail_api email output ('NEW_gmail_zoom_links.py')
+
 dates_zoom_links_and_topics = emails_data
 
 # Get the old email data from the 50 attachments email
