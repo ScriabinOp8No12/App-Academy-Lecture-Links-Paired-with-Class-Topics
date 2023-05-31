@@ -51,25 +51,6 @@ old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
 # add those to the Google Sheets.
 dates_in_sheet = set(sheet.col_values(2)[1:])
 
-# Adding AA Topics to Google Sheets based on date:
-for week in new_list_of_dictionaries:
-    for date, topics in week.items():
-        # Check if the date is in the Google Sheets
-        if date in dates_in_sheet:
-            # Finds the row that contains the date by using the find method of the sheet object and passing in the date
-            # as an argument. The find method returns a Cell object that has a row attribute representing the row number of the cell.
-            # This row number is then assigned to the row_index variable.
-            row_index = sheet.find(date).row
-            # Update the topics column (column 5) with the topics
-            # The update_cell method of the sheet object is used to update the cell in column 5 of the row specified
-            # The last parameter of the update_cell method joins all the elements in the
-            # topics list into a single string separated by , .
-            # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
-            # would return 'Topic 1, Topic 2, Topic 3'
-            sheet.update_cell(row_index, 5, ', '.join(topics))
-            # Sleep for 1 second, to not reach the maximum quota and have program break
-            time.sleep(1)
-
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
 for email_data in emails_data:
     # Original date string: Date: May 2, 2023 03:58 PM Central Time (US and Canada)
@@ -111,6 +92,28 @@ for email_data in emails_data:
 
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
+    # Also pause here for 1 second to not go over the max quota requests
+    time.sleep(1)
+
+
+# Adding AA Topics to Google Sheets based on date:
+for week in new_list_of_dictionaries:
+    for date, topics in week.items():
+        # Check if the date is in the Google Sheets
+        if date in dates_in_sheet:
+            # Finds the row that contains the date by using the find method of the sheet object and passing in the date
+            # as an argument. The find method returns a Cell object that has a row attribute representing the row number of the cell.
+            # This row number is then assigned to the row_index variable.
+            row_index = sheet.find(date).row
+            # Update the topics column (column 5) with the topics
+            # The update_cell method of the sheet object is used to update the cell in column 5 of the row specified
+            # The last parameter of the update_cell method joins all the elements in the
+            # topics list into a single string separated by , .
+            # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
+            # would return 'Topic 1, Topic 2, Topic 3'
+            sheet.update_cell(row_index, 5, ', '.join(topics))
+            # Sleep for 1 second, to not reach the maximum quota and have program break
+            time.sleep(1)
 
 
 # ----------------- OLD EMAIL DATA BELOW -----------------------
