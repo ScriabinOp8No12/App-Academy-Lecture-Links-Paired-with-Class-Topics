@@ -5,7 +5,7 @@ from NEW_gmail_zoom_links import emails_data
 from OLD_gmail_zoom_links import zoom_links_passcodes_dates
 from converting_scraped_topics_to_have_date_in_key import new_list_of_dictionaries
 from datetime import datetime
-
+import time
 
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
 SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
@@ -13,11 +13,11 @@ SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
 # Authenticate using a service account
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
-# Replaced first parameter with the json file within this pycharm project
+# Replace first parameter with the json file that's in this pycharm project
 creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheets.json', scope)
 client = gspread.authorize(creds)
 
-# Open the Google Sheet (specify the sheet name)
+# Open the Google Sheet (specify the sheet name you want to populate)
 #sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
@@ -29,15 +29,10 @@ data = sheet.get_all_values()
 header = data[0]
 data = data[1:]
 
-# Sort the data by the date column (column index 1) in descending order
-date_column_index = 1
-data = sorted(data, key=lambda x: x[date_column_index], reverse=True)
-
 # Update the sheet with the sorted data (keeping the header row in place)
 sheet.update('A2', data)
 
 # Get the email data from the gmail_api email output ('NEW_gmail_zoom_links.py')
-
 dates_zoom_links_and_topics = emails_data
 
 # Get the old email data from the 50 attachments email
@@ -56,15 +51,24 @@ old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
 # add those to the Google Sheets.
 dates_in_sheet = set(sheet.col_values(2)[1:])
 
-# Adding topics in based on date:
+# Adding AA Topics to Google Sheets based on date:
 for week in new_list_of_dictionaries:
     for date, topics in week.items():
         # Check if the date is in the Google Sheets
         if date in dates_in_sheet:
-            # Find the row index of the date in the Google Sheets
+            # Finds the row that contains the date by using the find method of the sheet object and passing in the date
+            # as an argument. The find method returns a Cell object that has a row attribute representing the row number of the cell.
+            # This row number is then assigned to the row_index variable.
             row_index = sheet.find(date).row
             # Update the topics column (column 5) with the topics
+            # The update_cell method of the sheet object is used to update the cell in column 5 of the row specified
+            # The last parameter of the update_cell method joins all the elements in the
+            # topics list into a single string separated by , .
+            # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
+            # would return 'Topic 1, Topic 2, Topic 3'
             sheet.update_cell(row_index, 5, ', '.join(topics))
+            # Sleep for 1 second, to not reach the maximum quota and have program break
+            time.sleep(1)
 
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
 for email_data in emails_data:
@@ -77,6 +81,8 @@ for email_data in emails_data:
     # %b: month name, %d: zero padded day, %Y: 4 digit year, etc
     date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M %p')
     # We only want the month, day, and year.  Output is: May 02, 2023
+    # Could change formatting here to remove the ' in front of the dates in Excel to the line below!
+    # formatted_date = date_obj.strftime('%Y-%m-%d')
     formatted_date = date_obj.strftime('%B %d, %Y')
     zoom_link = email_data['zoom_link']
     passcode = email_data['passcode']
@@ -101,7 +107,7 @@ for email_data in emails_data:
 
     # Sort the data by the date column (column index 1) in descending order
     date_column_index = 1
-    data = sorted(data, key=lambda x: x[date_column_index], reverse=True)
+    data = sorted(data, key=lambda x: datetime.strptime(x[date_column_index], '%B %d, %Y'), reverse=True)
 
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
