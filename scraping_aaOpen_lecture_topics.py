@@ -60,7 +60,7 @@ for week_element in week_links:
     if 'Assessment' not in week_name:
         week_names.append(week_name)
 
-print(week_names)
+# print(week_names)
 
 
 topics = []
@@ -72,7 +72,7 @@ for week_name in week_names:
     for week in weeks:
         # Click on the week using JS
         browser.execute_script("arguments[0].click();", week)
-        print(f"Clicked on {week_name}")
+        #print(f"Clicked on {week_name}")
 
         days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         day_elements = browser.find_elements(by=By.CSS_SELECTOR,
@@ -89,7 +89,7 @@ for week_name in week_names:
                 break
         # with the time.sleep(2), we now see the url getting updated!
         current_url = browser.current_url
-        print('Current url', current_url)
+        # print('Current url', current_url)
 
         new_result = browser.page_source
         # Update the doc object, otherwise if we use the original doc object, our data will be blank
@@ -123,11 +123,11 @@ for week_name in week_names:
                             individual_dictionaries[current_day].append(topic_header.text)
         final_list_of_dictionaries.append(individual_dictionaries)
 
-        print(individual_dictionaries)
+        #print(individual_dictionaries)
 
     browser.get(main_page_url)
     # Have to find the menu_element here again (won't work if we use just the line below that)
     menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
     browser.execute_script('arguments[0].click();', menu_element)
 
-print(final_list_of_dictionaries, "*********************************** FINAL OUTPUT HERE ******************************")
+print(final_list_of_dictionaries)
