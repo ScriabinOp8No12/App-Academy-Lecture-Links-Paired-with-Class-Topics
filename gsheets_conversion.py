@@ -18,8 +18,8 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheet
 client = gspread.authorize(creds)
 
 # Open the Google Sheet (specify the sheet name you want to populate)
-#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
 # Sort it once at the start to avoid the bug with the requests limit exceeded and the weird behavior of
 # the lectures getting put in the wrong place (sorts it properly, but starts at the wrong spot)
