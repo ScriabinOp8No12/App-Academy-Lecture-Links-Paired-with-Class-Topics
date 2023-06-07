@@ -3,12 +3,16 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from bs4 import BeautifulSoup
 from datetime import datetime
+import requests
 import re
 import base64
 import os
 
-emails_data = []
+# moved emails_data = [] to inside the function, it was here before
+# emails_data = []
 def get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender):
+    emails_data = []
+    new_access_token = None
     try:
         # Create credentials object from access token
         creds = Credentials.from_authorized_user_info(info={
@@ -70,8 +74,23 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
     except HttpError as error:
         print(f'An error occurred: {error}')
 
-    print(emails_data)
-    return emails_data
+        # ADDED block of code below to auto refresh the access token with our now "permanent" refresh token
+        if error.resp.status == 401:
+            url = 'https://oauth2.googleapis.com/token'
+            data = {
+                'client_id': client_id,
+                'client_secret': client_secret,
+                'refresh_token': refresh_token,
+                'grant_type': 'refresh_token'
+            }
+            response = requests.post(url, data=data)
+            response_json = response.json()
+            new_access_token = response_json['access_token']
+            # Block above was added
+
+    # print(emails_data)
+    # new_access_token was added
+    return emails_data, new_access_token
 
 access_token = os.environ['ACCESS_TOKEN']
 refresh_token = os.environ['REFRESH_TOKEN']
@@ -79,4 +98,5 @@ client_id = os.environ['CLIENT_ID']
 client_secret = os.environ['CLIENT_SECRET']
 sender = os.environ['EMAIL_OF_SENDER']
 
-get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender)
+# added emails_data, access_token =
+emails_data, access_token = get_emails_from_sender(access_token, refresh_token, client_id, client_secret, sender)
