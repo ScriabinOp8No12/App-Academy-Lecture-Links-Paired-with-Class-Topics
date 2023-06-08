@@ -2,11 +2,10 @@ import gspread
 import os
 from oauth2client.service_account import ServiceAccountCredentials
 from NEW_gmail_zoom_links import emails_data
-from OLD_gmail_zoom_links import zoom_links_passcodes_dates
+# from OLD_gmail_zoom_links import zoom_links_passcodes_dates
 from converting_scraped_topics_to_have_date_in_key import new_list_of_dictionaries
 from datetime import datetime
 import time
-
 
 startTime = time.time()
 
@@ -24,9 +23,6 @@ client = gspread.authorize(creds)
 #sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
-# Sort it once at the start to avoid the bug with the requests limit exceeded and the weird behavior of
-# the lectures getting put in the wrong place (sorts it properly, but starts at the wrong spot)
-
 data = sheet.get_all_values()
 # Separate the header row from the rest of the data
 header = data[0]
@@ -38,8 +34,8 @@ sheet.update('A2', data)
 # Get the email data from the gmail_api email output ('NEW_gmail_zoom_links.py')
 dates_zoom_links_and_topics = emails_data
 
-# Get the old email data from the 50 attachments email
-old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
+# Get the email data from the 50 attachments email (you shouldn't have to use this)
+# old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
 
 # Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
 # then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
@@ -95,8 +91,8 @@ for email_data in emails_data:
 
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
-    # Also pause here for 1 second to not go over the max quota requests
-    time.sleep(1)
+    # Also pause here for 2 seconds to not go over the max quota requests
+    time.sleep(2)
 
 
 # Adding AA Topics to Google Sheets based on date:
@@ -115,8 +111,8 @@ for week in new_list_of_dictionaries:
             # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
             # would return 'Topic 1, Topic 2, Topic 3'
             sheet.update_cell(row_index, 5, ', '.join(topics))
-            # Sleep for 1 second, to not reach the maximum quota and have program break
-            time.sleep(1)
+            # Sleep for 2 second, to not reach the maximum quota and have program break
+            time.sleep(2)
 
 executionTime = (time.time() - startTime)
 print('Execution time in seconds: ' + str(executionTime))
@@ -124,9 +120,11 @@ print('Execution time in seconds: ' + str(executionTime))
 # NOTE: You might run into a "temporary error" with some html output,
 # if that happens, just run the code again, and it should work!
 
-# ----------------- OLD EMAIL DATA BELOW -----------------------
-# Now we populate the old links, make sure we test it on the test sheet, so we don't break anything
-    # ctrl z doesn't work on Google sheets once Python adds data to it
+# Below code adds the 50 older lecture links that were sent to me as attachments
+# It required a different block of code to extract the data (since they were attachments)
+# Make sure we test it on the test sheet, so we don't break anything
+# ctrl z doesn't work on Google sheets once Python adds data to it
+
 # for email_data in zoom_links_passcodes_dates:
 #     # Original date string: Date: May 2, 2023 03:58 PM Central Time (US and Canada)
 #     date_str = email_data['date']
@@ -152,6 +150,8 @@ print('Execution time in seconds: ' + str(executionTime))
 #         last_row = len(sheet.col_values(1))
 #         # Insert a new row after the last row of the sheet and input the values there!
 #         sheet.insert_row(values, last_row + 1)
+#         # Wait 3 seconds here too, so we don't reach the max quota
+#         time.sleep(3)
 #     # ***** SORT the data in descending order, but don't also sort the 1st row because it has the headers! *****
 #     # Get all data from the sheet (including the header row)
 #     data = sheet.get_all_values()
@@ -165,5 +165,3 @@ print('Execution time in seconds: ' + str(executionTime))
 #
 #     # Update the sheet with the sorted data (keeping the header row in place)
 #     sheet.update('A2', data)
-
-

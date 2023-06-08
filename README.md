@@ -79,8 +79,9 @@ Here are the steps to follow (as seen above, but step 8 is crucial)
 6. Click "Authorize APIs", leave all the boxes checked, and select your Gmail account
 7. For step 2, click "Exchange authorization code for tokens", then save your access and refresh tokens securely
        
-# Google Sheets setup - Creating your Google service account (STEPS ARE LIKELY WRONG RIGHT NOW 5/15/23)
-    
+# Google Sheets setup - Creating your Google service account (Below link should be right!)
+
+https://developers.google.com/identity/protocols/oauth2/service-account
 ChatGPT output instructions after I helped it a bit, need to test this again myself because I forgot how I did it the first time
 
 1. In the **Google Cloud console**, go to **Menu** > **IAM & Admin** > **Service Accounts**.

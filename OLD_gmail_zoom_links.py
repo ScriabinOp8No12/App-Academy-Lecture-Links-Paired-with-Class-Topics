@@ -73,7 +73,7 @@ attachments_html = get_attachments_from_email(access_token, refresh_token, clien
 
 zoom_link_prefix = 'https://us02web.zoom.us/rec/share/'
 
-zoom_links_and_passcodes = []
+zoom_links_passcodes_dates = []
 for html in attachments_html:
     # Remove escape characters, this was the main issue that caused everything else to break!
     html = html.replace('=\r\n', '')
@@ -102,6 +102,7 @@ for html in attachments_html:
     # Iterate over two lists, zoom_links and passcodes, at the same time. For each iteration, we append a dictionary to
     # the zoom_links_and_passcodes list that contains the current date, zoom link, and passcode
     for zoom_link, passcode in zip(zoom_links, passcodes):
-        zoom_links_and_passcodes.append({'date': date, 'zoom_link': zoom_link.text, 'passcode': passcode})
+        zoom_links_passcodes_dates.append({'date': date, 'zoom_link': zoom_link.text, 'passcode': passcode})
 
-print(zoom_links_and_passcodes)
+# Dates are included, see line ~82, where the comment says "Find Date"
+# print(zoom_links_passcodes_dates)
