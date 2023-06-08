@@ -7,6 +7,9 @@ from converting_scraped_topics_to_have_date_in_key import new_list_of_dictionari
 from datetime import datetime
 import time
 
+
+startTime = time.time()
+
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
 SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
 
@@ -18,8 +21,8 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheet
 client = gspread.authorize(creds)
 
 # Open the Google Sheet (specify the sheet name you want to populate)
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
-#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
 # Sort it once at the start to avoid the bug with the requests limit exceeded and the weird behavior of
 # the lectures getting put in the wrong place (sorts it properly, but starts at the wrong spot)
@@ -115,6 +118,11 @@ for week in new_list_of_dictionaries:
             # Sleep for 1 second, to not reach the maximum quota and have program break
             time.sleep(1)
 
+executionTime = (time.time() - startTime)
+print('Execution time in seconds: ' + str(executionTime))
+
+# NOTE: You might run into a "temporary error" with some html output,
+# if that happens, just run the code again, and it should work!
 
 # ----------------- OLD EMAIL DATA BELOW -----------------------
 # Now we populate the old links, make sure we test it on the test sheet, so we don't break anything
