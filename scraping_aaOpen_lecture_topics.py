@@ -5,6 +5,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import os
 import time
+import json
+
+startTime = time.time()
 
 # ** Make sure to run "aa_open" run configuration NOT THE ACTUAL PYTHON FILE
 
@@ -122,4 +125,15 @@ for week_name in week_names:
     menu_element = browser.find_element(by=By.CSS_SELECTOR, value='a.sc-hwwEjo.ieBOLv')
     browser.execute_script('arguments[0].click();', menu_element)
 
-print(final_list_of_dictionaries)
+# print(final_list_of_dictionaries)
+
+with open('scraped_output.txt', 'w') as f:
+    json.dump(final_list_of_dictionaries, f)
+
+with open('scraped_output.txt', 'r') as f:
+    data = json.load(f)
+
+print(data)
+
+executionTime = (time.time() - startTime)
+print('Execution time in seconds: ' + str(executionTime))
