@@ -137,3 +137,5 @@ print(data)
 
 executionTime = (time.time() - startTime)
 print('Execution time in seconds: ' + str(executionTime))
+
+# Took 307 seconds to scrape all topics from week 1 through week 24
