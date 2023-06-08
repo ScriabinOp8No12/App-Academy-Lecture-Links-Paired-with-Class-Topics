@@ -127,13 +127,13 @@ for week_name in week_names:
 
 # print(final_list_of_dictionaries)
 
-with open('scraped_output.txt', 'w') as f:
+with open('scraped_output_weeks.txt', 'w') as f:
     json.dump(final_list_of_dictionaries, f)
 
-with open('scraped_output.txt', 'r') as f:
-    data = json.load(f)
-
-print(data)
+# with open('scraped_output_weeks.txt', 'r') as f:
+#     data = json.load(f)
+#
+# print(data)
 
 executionTime = (time.time() - startTime)
 print('Execution time in seconds: ' + str(executionTime))

@@ -9,8 +9,8 @@ import json
 app_academy_week_long_breaks = ['March 27, 2023', 'July 3, 2023', 'December 25, 2023']
 
 # *********************************
-# Read from the scraped_output.txt
-with open('scraped_output.txt', 'r') as f:
+# Read from the scraped_output_weeks1_24.txt
+with open('scraped_output_weeks1_24.txt', 'r') as f:
     data = json.load(f)
 
 saved_final_list_of_dictionaries = data
