@@ -11,19 +11,12 @@ import time
 main_page_url = r'https://open.appacademy.io/learn/js-py---pt-jan-2023-online/'
 login_page_url = r'https://open.appacademy.io/login'
 
-# Clear the cache? (if we don't do this, we start at whatever week the program left off on previously,
-# which messes up our scraped html for the 1st week)
-
 browser = webdriver.Chrome()
 # Go to the login page using selenium on Chrome
 browser.get(login_page_url)
-# Grab the password from the **environment variable**
+# Grab the password from the environment variable
 # Suggestion: Prompt from console instead of storing it in the environment variable -> more secure!
 password_value = os.environ['APP_ACADEMY_PASSWORD']
-# Use the following 2 lines to make sure the password is correct
-# password_value = os.environ.get('APP_ACADEMY_PASSWORD')
-# print(password_value)
-
 # Enter my email and password (selenium version 2022+ needed to use the By and value combo to 'find element by name'
 # https://stackoverflow.com/questions/35632810/python-selenium-find-element-by-name
 email = browser.find_element(by=By.NAME, value='user[email]')
@@ -61,7 +54,6 @@ for week_element in week_links:
         week_names.append(week_name)
 
 # print(week_names)
-
 
 topics = []
 final_list_of_dictionaries = []
