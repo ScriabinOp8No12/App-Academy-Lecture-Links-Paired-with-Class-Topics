@@ -20,8 +20,8 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheet
 client = gspread.authorize(creds)
 
 # Open the Google Sheet (specify the sheet name you want to populate)
-#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
 data = sheet.get_all_values()
 # Separate the header row from the rest of the data
@@ -72,7 +72,7 @@ for email_data in emails_data:
         dates_in_sheet.add(formatted_date)
         # Get the day of the week as a string
         day_of_week = date_obj.strftime('%A')
-        # NEXT STEP (add before if statement): Add App Academy Open topics to end of values list
+
         values = [day_of_week, formatted_date, zoom_link, passcode]
         # Find the last row of the sheet which has data in it (if it's empty, we start on row 1)
         last_row = len(sheet.col_values(1))
@@ -91,8 +91,8 @@ for email_data in emails_data:
 
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
-    # Also pause here for 2 seconds to not go over the max quota requests
-    time.sleep(2)
+    # Also pause here for 1 second to not go over the max quota requests
+    time.sleep(1)
 
 
 # Adding AA Topics to Google Sheets based on date:
@@ -111,14 +111,16 @@ for week in new_list_of_dictionaries:
             # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
             # would return 'Topic 1, Topic 2, Topic 3'
             sheet.update_cell(row_index, 5, ', '.join(topics))
-            # Sleep for 2 second, to not reach the maximum quota and have program break
-            time.sleep(2)
+            # Sleep for 1 second, to not reach the maximum quota and have program break
+            time.sleep(1)
 
 executionTime = (time.time() - startTime)
 print('Execution time in seconds: ' + str(executionTime))
 
 # NOTE: You might run into a "temporary error" with some html output,
 # if that happens, just run the code again, and it should work!
+# On the first time you run the code, you will want to change the time.sleep(1) to time.sleep(3) to not reach
+# the max quota
 
 # Below code adds the 50 older lecture links that were sent to me as attachments
 # It required a different block of code to extract the data (since they were attachments)
