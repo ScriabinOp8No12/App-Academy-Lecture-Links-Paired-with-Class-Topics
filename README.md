@@ -69,7 +69,10 @@ Here are the steps to follow (as seen above, but step 8 is crucial)
 
 # Gmail API - Obtaining your Access and Refresh Tokens 
 
-### Note: you will need to go through these same 6 steps to get a new Access and Refresh Token every 7 days
+### Note: After doing the below steps once, you can avoid doing it every 7 days by doing the following
+Go to: https://console.cloud.google.com/projectselector2/apis/credentials click on: Oauth consent screen, then change publishing status 
+from "Testing" to "In Production", I had to do the below steps a second time, then it asked me for permission, and then I didn't need to get a new refresh/access token!
+
 
 1. This same article does a good job of explaining the steps for getting your access and refresh tokens!<br>https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/gmail-connector/configuring-gmail-api/
 2. Go to this link, then click the gear in the top right corner: https://developers.google.com/oauthplayground/
