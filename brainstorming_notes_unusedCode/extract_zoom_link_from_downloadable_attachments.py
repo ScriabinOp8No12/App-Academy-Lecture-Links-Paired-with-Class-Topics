@@ -2,7 +2,7 @@ import gspread
 import os
 from oauth2client.service_account import ServiceAccountCredentials
 from NEW_gmail_zoom_links import emails_data
-# from OLD_gmail_zoom_links import zoom_links_passcodes_dates
+from OLD_gmail_zoom_links import zoom_links_passcodes_dates
 from converting_scraped_topics_to_have_date_in_key import new_list_of_dictionaries
 from datetime import datetime
 import time
@@ -35,7 +35,7 @@ sheet.update('A2', data)
 dates_zoom_links_and_topics = emails_data
 
 # Get the email data from the 50 attachments email (you shouldn't have to use this)
-# old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
+old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
 
 # Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
 # then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
