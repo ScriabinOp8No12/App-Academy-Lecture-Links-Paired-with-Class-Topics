@@ -2,6 +2,7 @@ import gspread
 import os
 from oauth2client.service_account import ServiceAccountCredentials
 from NEW_gmail_zoom_links import emails_data
+# Can speed up this import by writing the data to a text file once, then just reading from it
 from converting_scraped_topics_to_have_date_in_key import new_list_of_dictionaries
 from datetime import datetime
 import time
@@ -80,9 +81,7 @@ for email_data in emails_data:
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
     # Also pause here for 1 second to not go over the max quota requests
-    time.sleep(1)
-
-# *************************  PROBLEM BELOW, find method is taking too long?
+    #time.sleep(1)
 
 # Adding AA Topics to Google Sheets based on date:
 for week in new_list_of_dictionaries:
@@ -96,7 +95,7 @@ for week in new_list_of_dictionaries:
                     # Update the topics column (column 5) with the topics
                     sheet.update_cell(row_index, 5, ', '.join(topics))
                     # Sleep for 1 second, to not reach the maximum quota and have program break
-                    time.sleep(1)
+                    # time.sleep(1)
                     # Exit the loop once we've found and updated the matching row
                     break
 
@@ -108,22 +107,3 @@ print('Execution time in seconds: ' + str(executionTime))
 # On the first time you run the code, you will want to change everywhere you see time.sleep(1) to time.sleep(3)
 # to not reach the max quota!
 
-# Original code below (was: 180 seconds, now: 133 seconds for 2 rows or 5 rows (same time for some reason))
-# Adding AA Topics to Google Sheets based on date:
-# for week in new_list_of_dictionaries:
-#     for date, topics in week.items():
-#         # Check if the date is in the Google Sheets
-#         if date in dates_in_sheet:
-#             # Finds the row that contains the date by using the find method of the sheet object and passing in the date
-#             # as an argument. The find method returns a Cell object that has a row attribute representing the row number of the cell.
-#             # This row number is then assigned to the row_index variable.
-#             row_index = sheet.find(date).row
-#             # Update the topics column (column 5) with the topics
-#             # The update_cell method of the sheet object is used to update the cell in column 5 of the row specified
-#             # The last parameter of the update_cell method joins all the elements in the
-#             # topics list into a single string separated by , .
-#             # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
-#             # would return 'Topic 1, Topic 2, Topic 3'
-#             sheet.update_cell(row_index, 5, ', '.join(topics))
-#             # Sleep for 1 second, to not reach the maximum quota and have program break
-#             time.sleep(1)
