@@ -51,3 +51,5 @@ for week in saved_final_list_of_dictionaries[4:]:
 
 for week in new_list_of_dictionaries:
     print(week)
+
+# I can write this to a file, then instead of importing it over to gsheets, I just read from the file instead

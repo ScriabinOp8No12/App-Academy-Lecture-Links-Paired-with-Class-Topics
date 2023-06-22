@@ -7,34 +7,26 @@ from datetime import datetime
 import time
 
 startTime = time.time()
-
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
 SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
-
 # Authenticate using a service account
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 # Replace first parameter with the json file that's in this pycharm project
 creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheets.json', scope)
 client = gspread.authorize(creds)
-
 # Open the Google Sheet (specify the sheet name you want to populate)
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
-#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 
 data = sheet.get_all_values()
 # Separate the header row from the rest of the data
 header = data[0]
 data = data[1:]
-
 # Update the sheet with the sorted data (keeping the header row in place)
 sheet.update('A2', data)
-
 # Get the email data from the gmail_api email output ('NEW_gmail_zoom_links.py')
 dates_zoom_links_and_topics = emails_data
-
-# Get the email data from the 50 attachments email (you shouldn't have to use this)
-# old_dates_zoom_links_and_topics = zoom_links_passcodes_dates
 
 # Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
 # then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
@@ -71,7 +63,6 @@ for email_data in emails_data:
         dates_in_sheet.add(formatted_date)
         # Get the day of the week as a string
         day_of_week = date_obj.strftime('%A')
-
         values = [day_of_week, formatted_date, zoom_link, passcode]
         # Find the last row of the sheet which has data in it (if it's empty, we start on row 1)
         last_row = len(sheet.col_values(1))
@@ -83,41 +74,56 @@ for email_data in emails_data:
     # Separate the header row from the rest of the data
     header = data[0]
     data = data[1:]
-
     # Sort the data by the date column (column index 1) in descending order
     date_column_index = 1
     data = sorted(data, key=lambda x: datetime.strptime(x[date_column_index], '%B %d, %Y'), reverse=True)
-
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
     # Also pause here for 1 second to not go over the max quota requests
     time.sleep(1)
 
+# *************************  PROBLEM BELOW, find method is taking too long?
 
 # Adding AA Topics to Google Sheets based on date:
 for week in new_list_of_dictionaries:
     for date, topics in week.items():
         # Check if the date is in the Google Sheets
         if date in dates_in_sheet:
-            # Finds the row that contains the date by using the find method of the sheet object and passing in the date
-            # as an argument. The find method returns a Cell object that has a row attribute representing the row number of the cell.
-            # This row number is then assigned to the row_index variable.
-            row_index = sheet.find(date).row
-            # Update the topics column (column 5) with the topics
-            # The update_cell method of the sheet object is used to update the cell in column 5 of the row specified
-            # The last parameter of the update_cell method joins all the elements in the
-            # topics list into a single string separated by , .
-            # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
-            # would return 'Topic 1, Topic 2, Topic 3'
-            sheet.update_cell(row_index, 5, ', '.join(topics))
-            # Sleep for 1 second, to not reach the maximum quota and have program break
-            time.sleep(1)
+            # Iterate over the rows of the sheet starting from the first row
+            for row_index, row in enumerate(sheet.get_all_values(), start=1):
+                # Check if the date in the current row matches the date we're looking for
+                if row[1] == date:
+                    # Update the topics column (column 5) with the topics
+                    sheet.update_cell(row_index, 5, ', '.join(topics))
+                    # Sleep for 1 second, to not reach the maximum quota and have program break
+                    time.sleep(1)
+                    # Exit the loop once we've found and updated the matching row
+                    break
+
 
 executionTime = (time.time() - startTime)
 print('Execution time in seconds: ' + str(executionTime))
 
-# NOTE: You might run into a "temporary error" with some html output,
-# if that happens, just run the code again, and it should work!
-# On the first time you run the code, you will want to change the time.sleep(1) to time.sleep(3) to not reach
-# the max quota!
+# NOTE: You might run into a "temporary error" with some html output, if that happens, just run the code again!
+# On the first time you run the code, you will want to change everywhere you see time.sleep(1) to time.sleep(3)
+# to not reach the max quota!
 
+# Original code below (was: 180 seconds, now: 133 seconds for 2 rows or 5 rows (same time for some reason))
+# Adding AA Topics to Google Sheets based on date:
+# for week in new_list_of_dictionaries:
+#     for date, topics in week.items():
+#         # Check if the date is in the Google Sheets
+#         if date in dates_in_sheet:
+#             # Finds the row that contains the date by using the find method of the sheet object and passing in the date
+#             # as an argument. The find method returns a Cell object that has a row attribute representing the row number of the cell.
+#             # This row number is then assigned to the row_index variable.
+#             row_index = sheet.find(date).row
+#             # Update the topics column (column 5) with the topics
+#             # The update_cell method of the sheet object is used to update the cell in column 5 of the row specified
+#             # The last parameter of the update_cell method joins all the elements in the
+#             # topics list into a single string separated by , .
+#             # For example, if topics = ['Topic 1', 'Topic 2', 'Topic 3'], then ', '.join(topics)
+#             # would return 'Topic 1, Topic 2, Topic 3'
+#             sheet.update_cell(row_index, 5, ', '.join(topics))
+#             # Sleep for 1 second, to not reach the maximum quota and have program break
+#             time.sleep(1)
