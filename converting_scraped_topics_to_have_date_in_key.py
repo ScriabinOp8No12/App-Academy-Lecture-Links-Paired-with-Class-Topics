@@ -5,7 +5,6 @@ import json
 # Spring break 2023 started on March 27th (Monday), and lasted until the next Monday.
 # PUT THE DATE OF THE MONDAY THAT THE WEEKLY BREAK STARTS!
 # The 3 weekly breaks are likely: Spring Break, July Break, Winter Break
-# app_academy_week_long_breaks = ['March 27, 2023']
 app_academy_week_long_breaks = ['March 27, 2023', 'July 3, 2023', 'December 25, 2023']
 
 # *********************************
@@ -14,7 +13,6 @@ with open('scraped_output_weeks1_24.txt', 'r') as f:
     data = json.load(f)
 
 saved_final_list_of_dictionaries = data
-
 #print(saved_final_list_of_dictionaries)
 
 # Creates a datetime object, uses strptime method and formats it in a special way
