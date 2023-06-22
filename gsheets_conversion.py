@@ -28,18 +28,7 @@ data = data[1:]
 sheet.update('A2', data)
 # Get the email data from the gmail_api email output ('NEW_gmail_zoom_links.py')
 dates_zoom_links_and_topics = emails_data
-
-# Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
-# then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
-# avoid lectures that are not valid.
-# Gmail api extracts the lectures with the most recent time (or latest time) first, so it's important to NOT run
-# this program until after all the Gmail zoom links have arrived in your Gmail inbox.  For example, let's say
-# at 5pm MT and 6pm MT, a lecture link is sent to your gmail. In our cohort, these are mistakes, and are 1-2 minute
-# long lectures with nothing on them.  At 11:30pm MT, a third and final email comes in with a link, since the
-# Pacific Time cohort ends at 11pm MT, we know that this is the correct Zoom info to add to our Google sheets!
-# The Gmail API extracts them in the most recent order, so we can simply run this program, extract the correct
-# 11:30pm MT lecture, then store it in a set. Now if we try to grab the other ones from the same date, it won't
-# add those to the Google Sheets.
+# See 1. for logic
 dates_in_sheet = set(sheet.col_values(2)[1:])
 
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
@@ -81,7 +70,7 @@ for email_data in emails_data:
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
     # Also pause here for 1 second to not go over the max quota requests
-    #time.sleep(1)
+    # time.sleep(1)
 
 # Adding AA Topics to Google Sheets based on date:
 for week in new_list_of_dictionaries:
@@ -99,11 +88,23 @@ for week in new_list_of_dictionaries:
                     # Exit the loop once we've found and updated the matching row
                     break
 
-
 executionTime = (time.time() - startTime)
 print('Execution time in seconds: ' + str(executionTime))
 
-# NOTE: You might run into a "temporary error" with some html output, if that happens, just run the code again!
-# On the first time you run the code, you will want to change everywhere you see time.sleep(1) to time.sleep(3)
-# to not reach the max quota!
+# You might run into a "temporary error" with some html output, if that happens, just run the code again!
+# On the first time you run the code, you will want to change everywhere you see the commented out
+# time.sleep(1) to time.sleep(3) to not exceed the max quota!  However, on subsequent runs when you are only adding
+# 1 row at a time, you can omit the time.sleep()
 
+# 1.
+# Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
+# then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
+# avoid lectures that are not valid.
+# Gmail api extracts the lectures with the most recent time (or latest time) first, so it's important to NOT run
+# this program until after all the Gmail zoom links have arrived in your Gmail inbox.  For example, let's say
+# at 5pm MT and 6pm MT, a lecture link is sent to your gmail. In our cohort, these are mistakes, and are 1-2 minute
+# long lectures with nothing on them.  At 11:30pm MT, a third and final email comes in with a link, since the
+# Pacific Time cohort ends at 11pm MT, we know that this is the correct Zoom info to add to our Google sheets!
+# The Gmail API extracts them in the most recent order, so we can simply run this program, extract the correct
+# 11:30pm MT lecture, then store it in a set. Now if we try to grab the other ones from the same date, it won't
+# add those to the Google Sheets.
