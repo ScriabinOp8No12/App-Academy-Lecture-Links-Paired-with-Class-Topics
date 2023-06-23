@@ -31,8 +31,15 @@ dates_zoom_links_and_topics = emails_data
 # See 1. for logic
 dates_in_sheet = set(sheet.col_values(2)[1:])
 
+counter = 0
+
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
+# CHECK NUMBER OF ITERATIONS IN THIS LOOP, I think this is the problem, it's looping through ALL the emails
 for email_data in emails_data:
+    counter += 1
+    print(counter)
+    if counter == 3:
+        break
     # Original date string: Date: May 2, 2023 03:58 PM Central Time (US and Canada)
     date_str = email_data['date']
     # Split between the end of "Date:" and before "Central Time"
@@ -73,12 +80,20 @@ for email_data in emails_data:
     # time.sleep(1)
 
 # Adding AA Topics to Google Sheets based on date:
-for week in new_list_of_dictionaries:
-    for date, topics in week.items():
+found = False
+for week in reversed(new_list_of_dictionaries):
+    counter+=1
+    print(counter)
+    for date, topics in reversed(week.items()):
+        counter+=1
+        print(counter)
         # Check if the date is in the Google Sheets
         if date in dates_in_sheet:
             # Iterate over the rows of the sheet starting from the first row
             for row_index, row in enumerate(sheet.get_all_values(), start=1):
+                counter+=1
+                print(counter)
+
                 # Check if the date in the current row matches the date we're looking for
                 if row[1] == date:
                     # Update the topics column (column 5) with the topics
@@ -86,7 +101,12 @@ for week in new_list_of_dictionaries:
                     # Sleep for 1 second, to not reach the maximum quota and have program break
                     # time.sleep(1)
                     # Exit the loop once we've found and updated the matching row
+                    found = True
                     break
+            if found:
+                break
+    if found:
+        break
 
 executionTime = (time.time() - startTime)
 print('Execution time in seconds: ' + str(executionTime))
@@ -95,6 +115,10 @@ print('Execution time in seconds: ' + str(executionTime))
 # On the first time you run the code, you will want to change everywhere you see the commented out
 # time.sleep(1) to time.sleep(3) to not exceed the max quota!  However, on subsequent runs when you are only adding
 # 1 row at a time, you can omit the time.sleep()
+
+# Looks like Google sheets does some caching, because it allows me to make 1000
+# requests in a few seconds, if I already ran the code and hit the max quota previously
+
 
 # 1.
 # Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
