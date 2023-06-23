@@ -18,7 +18,8 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheet
 client = gspread.authorize(creds)
 # Open the Google Sheet (specify the sheet name you want to populate)
 #sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Time_Complexity_1')
 
 data = sheet.get_all_values()
 # Separate the header row from the rest of the data
@@ -31,15 +32,16 @@ dates_zoom_links_and_topics = emails_data
 # See 1. for logic
 dates_in_sheet = set(sheet.col_values(2)[1:])
 
+# Count the number of read requests made to Google Sheets, the quota is roughly 60 per minute, which is exceeded
+# if we let the 3 for loops iterate all the way through (~500 iterations for 4 months of lecture data)
 counter = 0
 
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
-# CHECK NUMBER OF ITERATIONS IN THIS LOOP, I think this is the problem, it's looping through ALL the emails
 for email_data in emails_data:
     counter += 1
     print(counter)
-    if counter == 3:
-        break
+    # See 2. at end of code to add more than one row at a time
+
     # Original date string: Date: May 2, 2023 03:58 PM Central Time (US and Canada)
     date_str = email_data['date']
     # Split between the end of "Date:" and before "Central Time"
@@ -76,6 +78,7 @@ for email_data in emails_data:
     data = sorted(data, key=lambda x: datetime.strptime(x[date_column_index], '%B %d, %Y'), reverse=True)
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
+    break
     # Also pause here for 1 second to not go over the max quota requests
     # time.sleep(1)
 
@@ -119,7 +122,6 @@ print('Execution time in seconds: ' + str(executionTime))
 # Looks like Google sheets does some caching, because it allows me to make 1000
 # requests in a few seconds, if I already ran the code and hit the max quota previously
 
-
 # 1.
 # Look at values in 1st column of Google sheets so that we can check if that date already exists, if it does
 # then do NOT update the Google sheet with that data (it'll be a duplicate) AND also add it to a set so we
@@ -132,3 +134,11 @@ print('Execution time in seconds: ' + str(executionTime))
 # The Gmail API extracts them in the most recent order, so we can simply run this program, extract the correct
 # 11:30pm MT lecture, then store it in a set. Now if we try to grab the other ones from the same date, it won't
 # add those to the Google Sheets.
+
+# 2.
+# Need to stop iterations once we find the SINGLE proper email
+# if counter == 3:  # change this to be a larger number if we need to add more than just one row of data
+#   break
+# also need to remove the "break" statement seen in the last line of the loop
+#     sheet.update('A2', data)
+#     break
