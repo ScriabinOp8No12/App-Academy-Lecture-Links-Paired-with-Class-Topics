@@ -1,13 +1,20 @@
 import gspread
 import os
 from oauth2client.service_account import ServiceAccountCredentials
+# the import below is taking 14 seconds, it wasn't the new_list_of_dictionaries import ...
 from NEW_gmail_zoom_links import emails_data
-# Can speed up this import by writing the data to a text file once, then just reading from it
-from converting_scraped_topics_to_have_date_in_key import new_list_of_dictionaries
+import json
+# Can speed up this import by writing the data to a text file once, then just reading from it?
+# from converting_scraped_topics_to_have_date_in_key import new_list_of_dictionaries
 from datetime import datetime
 import time
 
 startTime = time.time()
+
+# Read from the text file that contains the converted App Academy topics with the Date as the dictionary key
+with open('converted_topics_weeks1_24.txt', 'r') as f:
+    new_list_of_dictionaries = json.load(f)
+
 # Spreadsheet key is found on the Google sheets url, between the /d/ and /edit
 SPREADSHEET_KEY = os.environ['SPREADSHEET_KEY']
 # Authenticate using a service account
@@ -17,8 +24,8 @@ scope = ['https://spreadsheets.google.com/feeds',
 creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheets.json', scope)
 client = gspread.authorize(creds)
 # Open the Google Sheet (specify the sheet name you want to populate)
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
-#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
 #sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Time_Complexity_1')
 
 data = sheet.get_all_values()
@@ -32,7 +39,7 @@ dates_zoom_links_and_topics = emails_data
 # See 1. for logic on using a set
 dates_in_sheet = set(sheet.col_values(2)[1:])
 # Count the number of read requests made to Google Sheets, the quota is roughly 60 per minute, which is exceeded
-# if we let the 3 for loops iterate all the way through without pausing (~500 iterations for 4 months of lecture data)
+# if we let the 3 for loops iterate all the way through without pausing (500+ iterations for 4 months of lecture data)
 counter = 0
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
 for email_data in emails_data:
