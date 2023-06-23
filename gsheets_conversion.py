@@ -17,9 +17,9 @@ scope = ['https://spreadsheets.google.com/feeds',
 creds = ServiceAccountCredentials.from_json_keyfile_name('gmail-connector-gsheets.json', scope)
 client = gspread.authorize(creds)
 # Open the Google Sheet (specify the sheet name you want to populate)
-#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 #sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Time_Complexity_1')
+#sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Time_Complexity_1')
 
 data = sheet.get_all_values()
 # Separate the header row from the rest of the data
@@ -29,13 +29,11 @@ data = data[1:]
 sheet.update('A2', data)
 # Get the email data from the gmail_api email output ('NEW_gmail_zoom_links.py')
 dates_zoom_links_and_topics = emails_data
-# See 1. for logic
+# See 1. for logic on using a set
 dates_in_sheet = set(sheet.col_values(2)[1:])
-
 # Count the number of read requests made to Google Sheets, the quota is roughly 60 per minute, which is exceeded
-# if we let the 3 for loops iterate all the way through (~500 iterations for 4 months of lecture data)
+# if we let the 3 for loops iterate all the way through without pausing (~500 iterations for 4 months of lecture data)
 counter = 0
-
 # Dynamically add the values from the "NEW_gmail_zoom_links.py" file and add them into the Google sheets
 for email_data in emails_data:
     counter += 1
@@ -51,12 +49,11 @@ for email_data in emails_data:
     # %b: month name, %d: zero padded day, %Y: 4 digit year, etc
     date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M %p')
     # We only want the month, day, and year.  Output is: May 02, 2023
-    # Could change formatting here to remove the ' in front of the dates in Excel to the line below!
-    # formatted_date = date_obj.strftime('%Y-%m-%d')
     formatted_date = date_obj.strftime('%B %d, %Y')
     zoom_link = email_data['zoom_link']
     passcode = email_data['passcode']
     # If the Date doesn't show up in the Google sheet date column, and the date isn't a Friday or Sunday
+    # We have no classes on Friday or Sunday
     if formatted_date not in dates_in_sheet and date_obj.weekday() not in [4, 6]:
         # Add that date into the set, so we don't get duplicates
         dates_in_sheet.add(formatted_date)
@@ -67,7 +64,6 @@ for email_data in emails_data:
         last_row = len(sheet.col_values(1))
         # Insert a new row after the last row of the sheet and input the values there!
         sheet.insert_row(values, last_row + 1)
-    # ***** SORT the data in descending order, but don't also sort the 1st row because it has the headers! *****
     # Get all data from the sheet (including the header row)
     data = sheet.get_all_values()
     # Separate the header row from the rest of the data
@@ -79,31 +75,25 @@ for email_data in emails_data:
     # Update the sheet with the sorted data (keeping the header row in place)
     sheet.update('A2', data)
     break
-    # Also pause here for 1 second to not go over the max quota requests
-    # time.sleep(1)
 
 # Adding AA Topics to Google Sheets based on date:
 found = False
 for week in reversed(new_list_of_dictionaries):
-    counter+=1
+    counter += 1
     print(counter)
     for date, topics in reversed(week.items()):
-        counter+=1
+        counter += 1
         print(counter)
-        # Check if the date is in the Google Sheets
         if date in dates_in_sheet:
             # Iterate over the rows of the sheet starting from the first row
             for row_index, row in enumerate(sheet.get_all_values(), start=1):
-                counter+=1
+                counter += 1
                 print(counter)
-
                 # Check if the date in the current row matches the date we're looking for
                 if row[1] == date:
                     # Update the topics column (column 5) with the topics
                     sheet.update_cell(row_index, 5, ', '.join(topics))
-                    # Sleep for 1 second, to not reach the maximum quota and have program break
-                    # time.sleep(1)
-                    # Exit the loop once we've found and updated the matching row
+                    # Exit all 3 loops once we've found and updated the single matching row
                     found = True
                     break
             if found:
