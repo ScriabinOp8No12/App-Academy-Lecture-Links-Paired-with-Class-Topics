@@ -49,7 +49,9 @@ for week in saved_final_list_of_dictionaries[4:]:
     # Bump up the time delta by 7 days now to access the new week (new dictionary)
     start_date += timedelta(days=7)
 
+# Write to file: the newly converted topics with date as the dictionary key
+with open('converted_topics_weeks1_24.txt', 'w') as f:
+    json.dump(new_list_of_dictionaries, f)
+
 for week in new_list_of_dictionaries:
     print(week)
-
-# I can write this to a file, then instead of importing it over to gsheets, I just read from the file instead
