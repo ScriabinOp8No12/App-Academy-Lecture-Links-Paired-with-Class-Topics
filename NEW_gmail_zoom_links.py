@@ -91,6 +91,7 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
     # print(emails_data)
     # new_access_token was added
     return emails_data, new_access_token
+    # above: return only the last email (use .pop())?
 
 access_token = os.environ['ACCESS_TOKEN']
 refresh_token = os.environ['REFRESH_TOKEN']
