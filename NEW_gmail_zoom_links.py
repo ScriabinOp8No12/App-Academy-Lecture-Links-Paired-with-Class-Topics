@@ -48,14 +48,17 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
             soup = BeautifulSoup(content, 'html.parser')
             # Find passcode
             passcode = soup.find('span').text.split(': ')[1]
+            # New logic, because Zoom updated their format, fun!
+            # The soup.find method is used with a lambda function to search for a div element that contains the
+            # specified text. The lambda function takes a tag argument and checks if the tag is a div element and
+            # if its text contains the specified string. If both conditions are met, the tag is returned by the lambda
+            # function and the soup.find method returns that tag.
+            div = soup.find(lambda
+                                tag: tag.name == 'div' and "You can copy the recording information below and share with others" in tag.text)
 
-            # Find zoom link -> logic, find the div with the text "you can copy the recording info..."
-            # then find it's next sibling, which is always the proper zoom link. Look for an 'a' tag and href attribute
-            zoom_link = soup.find('div',
-                                  string='You can copy the recording information below and share with others').find_next_sibling(
-                'a')['href']
+            zoom_link = div.find_next('a')['href']
+
             # Find date information using regex
-            # [FOR LATER!] if multiple recordings with same date, only use the one that is the most recent (latest time)
             date = re.search(r'Date: .+', content)
             if date:
                 date = date.group()
@@ -67,14 +70,11 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
             }
             emails_data.append(email_data)
 
-            ## print(content)
-            # print(f'Zoom link: {zoom_link}')
-            # print(f'Passcode: {passcode}')
 
     except HttpError as error:
         print(f'An error occurred: {error}')
 
-        # ADDED block of code below to auto refresh the access token with our now "permanent" refresh token
+        # Makes post request using our refresh token (which shouldn't really expire) to auto refresh the access token
         if error.resp.status == 401:
             url = 'https://oauth2.googleapis.com/token'
             data = {
@@ -86,12 +86,10 @@ def get_emails_from_sender(access_token, refresh_token, client_id, client_secret
             response = requests.post(url, data=data)
             response_json = response.json()
             new_access_token = response_json['access_token']
-            # Block above was added
 
-    # print(emails_data)
-    # new_access_token was added
     return emails_data, new_access_token
-    # above: return only the last email (use .pop())?
+    # above: return only the last email
+
 
 access_token = os.environ['ACCESS_TOKEN']
 refresh_token = os.environ['REFRESH_TOKEN']
