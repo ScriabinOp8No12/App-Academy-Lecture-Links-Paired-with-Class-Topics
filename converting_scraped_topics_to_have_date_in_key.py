@@ -9,7 +9,7 @@ app_academy_week_long_breaks = ['March 27, 2023', 'July 3, 2023', 'December 25, 
 
 # *********************************
 # Read from the scraped_output_weeks1_24.txt
-with open('scraped_output_weeks1_24.txt', 'r') as f:
+with open('scraped_output_weeks1_28.txt', 'r') as f:
     data = json.load(f)
 
 saved_final_list_of_dictionaries = data
@@ -50,7 +50,7 @@ for week in saved_final_list_of_dictionaries[4:]:
     start_date += timedelta(days=7)
 
 # Write to file: the newly converted topics with date as the dictionary key
-with open('converted_topics_weeks1_24.txt', 'w') as f:
+with open('converted_topics_weeks1_28.txt', 'w') as f:
     json.dump(new_list_of_dictionaries, f)
 
 for week in new_list_of_dictionaries:
