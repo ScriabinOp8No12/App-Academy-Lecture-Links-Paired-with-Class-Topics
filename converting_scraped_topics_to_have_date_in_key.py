@@ -4,12 +4,16 @@ import json
 # If our topic would fall onto the starting date below, then increase time delta by 7
 # Spring break 2023 started on March 27th (Monday), and lasted until the next Monday.
 # PUT THE DATE OF THE MONDAY THAT THE WEEKLY BREAK STARTS!
-# The 3 weekly breaks are likely: Spring Break, July Break, Winter Break
-app_academy_week_long_breaks = ['March 27, 2023', 'July 3, 2023', 'December 25, 2023']
+# The 3 weekly breaks are likely: Spring Break, July Break, Winter Break (however, since we had project week for 2
+# weeks right after our July break, we need to put that July3rd starting break into hte 3 week long break instead
+# Add each day for the start of project week too (backend project started July 10th for 2 weeks)
+app_academy_week_long_breaks = ['March 27, 2023', 'December 25, 2023']
+app_academy_2week_long_breaks = []
+app_academy_3week_long_breaks = ['July 03, 2023']
 
 # *********************************
 # Read from the scraped_output_weeks1_24.txt
-with open('scraped_output_weeks1_24.txt', 'r') as f:
+with open('scraped_output_weeks1_36.txt', 'r') as f:
     data = json.load(f)
 
 saved_final_list_of_dictionaries = data
@@ -41,6 +45,11 @@ for week in saved_final_list_of_dictionaries[4:]:
             date += timedelta(days=7)
             # Also increase the start_date variable by 7 days
             start_date += timedelta(days=7)
+        elif date.strftime('%B %d, %Y') in app_academy_3week_long_breaks:
+            # Increase the time delta by 7 days
+            date += timedelta(days=21)
+            # Also increase the start_date variable by 7 days
+            start_date += timedelta(days=21)
         # Create the new key-value pair to the new_week dictionary where the key is a string representing the date
         # of the current day’s activities and the value is the list of activities.
         # The date is formatted as a string using the strftime method of the datetime class.
@@ -50,7 +59,7 @@ for week in saved_final_list_of_dictionaries[4:]:
     start_date += timedelta(days=7)
 
 # Write to file: the newly converted topics with date as the dictionary key
-with open('converted_topics_weeks1_24.txt', 'w') as f:
+with open('converted_topics_weeks1_36.txt', 'w') as f:
     json.dump(new_list_of_dictionaries, f)
 
 for week in new_list_of_dictionaries:
