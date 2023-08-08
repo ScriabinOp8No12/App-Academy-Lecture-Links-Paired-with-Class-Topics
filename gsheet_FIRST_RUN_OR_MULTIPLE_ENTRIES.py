@@ -19,7 +19,8 @@ client = gspread.authorize(creds)
 # Open the Google Sheet (specify the sheet name you want to populate)
 # sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Jan-9th-Cohort-Lectures')
 # sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Sheet')
-sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Time_Complexity_1')
+# sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Testing_Time_Complexity_1')
+sheet = client.open_by_key(SPREADSHEET_KEY).worksheet('Backup_v2_new_scraping_logic')
 
 data = sheet.get_all_values()
 # Separate the header row from the rest of the data
